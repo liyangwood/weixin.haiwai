@@ -188,5 +188,10 @@ util.render = {
 };
 
 
+util.style = {
+	MAIN_WIDTH : '1180px'
+};
+
 
 window.util = util;
+window._ = _;

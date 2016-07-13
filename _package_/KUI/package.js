@@ -28,7 +28,7 @@ Package.onUse(function (api) {
 		'node_modules/antd/dist/antd.min.css'
 	], 'client');
 	api.addAssets([
-
+		'node_modules/antd/dist/antd.min.js.map'
 	], 'client');
 
 	api.mainModule('out.jsx', 'client');

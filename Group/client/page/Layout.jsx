@@ -1,5 +1,13 @@
 import {KUI} from 'meteor/kg:kui';
 
+let sy = {
+	main : {
+		width : util.style.MAIN_WIDTH
+	},
+	body : {
+		padding : '0 20px'
+	}
+};
 UI.Layout = class extends KUI.RC.CSS{
 
 	constructor(p){
@@ -139,34 +147,28 @@ UI.Layout = class extends KUI.RC.CSS{
 			marginLeft:this.state.showLeftNav?220:0
 		}
 
-		return (<div id="ui-layout">
+		return (
+			<div id="ui-layout">
+				{/* header */}
+				<UI.Header />
+				<div className="main-wrapper" style={sy.main}>
+					<ND.Row>
+						<ND.Col span={4}>
+							{/* left nav */}
+							<UI.LeftNav showLeftNav={this.state.showLeftNav} />
+						</ND.Col>
 
-
-
-
-			<div className="container" style={style.con}>
-
-
-				<UI.LeftNav showLeftNav={this.state.showLeftNav} />
-				<div id="page-wrapper" style={pageWraperStyle}>
-
-					<div style={{paddingTop : 0}} className="wrapper wrapper-content animated fadeInRight">
-						<div className="ibox">
-							<div className="ibox-content">
-								<UI.Body tmpl={this.props.body} />
-							</div>
-						</div>
-
-					</div>
-
-					<div className="footer"></div>
+						<ND.Col span={20} style={sy.body}>
+							{/* body */}
+							<UI.Body tmpl={this.props.body} />
+						</ND.Col>
+					</ND.Row>
 				</div>
+				<div className="footer"></div>
+
+
+
 			</div>
-
-
-
-
-
-		</div>)
+		);
 	}
 };

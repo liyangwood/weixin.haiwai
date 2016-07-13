@@ -1,5 +1,10 @@
 
-let RB = KUI.RB;
+let sy = {
+	row : {
+		width : util.style.MAIN_WIDTH
+	}
+};
+
 UI.Header = class extends KUI.RC.CSS{
 
 
@@ -9,9 +14,9 @@ UI.Header = class extends KUI.RC.CSS{
 			marginLeft : '15px'
 		};
 
-		return <RB.Nav pullRight>
+		return <div>
 			<UI.NoButton style={sy} onClick={function(){}} label="Login"></UI.NoButton>
-		</RB.Nav>;
+		</div>;
 	}
 	getAfterLogin(user){
 		var style = {
@@ -22,11 +27,11 @@ UI.Header = class extends KUI.RC.CSS{
 			marginLeft : '15px'
 		};
 
-		return <RB.Nav pullRight>
-			<RB.Navbar.Text eventKey={1}>Welcome <b style={style}>{user.username}</b></RB.Navbar.Text>
+		return <div>
+			<p eventKey={1}>Welcome <b style={style}>{user.username}</b></p>
 			<UI.NoButton onClick={this.toSetting} style={sy} label="Settings"></UI.NoButton>
 			<UI.NoButton style={sy} onClick={this.logout} label="Logout"></UI.NoButton>
-		</RB.Nav>;
+		</div>;
 	}
 
 	logout(){
@@ -43,31 +48,23 @@ UI.Header = class extends KUI.RC.CSS{
 
 	render(){
 
-		let sy = {
-			logo : {
-				width : '100px',
-				height : '28px'
-			}
-		};
 
 		var user = false;//KG.Account.checkIsLogin();
-console.log(RB);
 		return (
-			<RB.Navbar>
-				<RB.Navbar.Header>
-					<RB.Navbar.Brand>
-
-						<a onClick={this.props.toggleLeftNav}>
-							<img style={sy.logo} src="http://www.haiwai.com/pc/image/newlogo2x.png" />
+			<header className="main-header">
+				<ND.Row className="main-box" style={sy.row}>
+					<ND.Col span={6}>
+						<a className="logo" href="/">
+							<img src="http://www.haiwai.com/pc/image/newlogo2x.png" />
 						</a>
-					</RB.Navbar.Brand>
-					<RB.Navbar.Toggle />
+					</ND.Col>
+					<ND.Col span={6}></ND.Col>
+					<ND.Col span={12}>
 
-				</RB.Navbar.Header>
-				<RB.Navbar.Collapse>
-					{user?this.getAfterLogin(user):this.getBeforeLogin()}
-				</RB.Navbar.Collapse>
-			</RB.Navbar>
+					</ND.Col>
+				</ND.Row>
+
+			</header>
 		);
 	}
 };
