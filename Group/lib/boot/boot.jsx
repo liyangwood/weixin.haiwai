@@ -7,10 +7,8 @@ if(Meteor.isClient){
 	UI = {};
 	window.KUI = KUI;
 	window.React = KUI.React;
-	//window.ANTD = KUI.ANTD;
 	window.ND = KUI.ANTD;
-	//window.RB = ReactBootstrap;
-	//KUI.RB = ReactBootstrap;
+
 }
 
 

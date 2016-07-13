@@ -2,7 +2,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ANTD from 'antd';
+import ANTD from 'antd/dist/antd.min.js';
+
 import RC from '../lib/css.jsx';
 import {mount} from 'react-mounter'
 //import {Dispatcher} from 'flux';

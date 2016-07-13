@@ -16,6 +16,7 @@ Package.describe({
 Package.onUse(function (api) {
 	api.versionsFrom("1.3");
 
+	api.use("modules");
 
 	var packages = [
 		'kg:base'
@@ -23,9 +24,12 @@ Package.onUse(function (api) {
 	];
 	api.use(packages, ["client","server"]);
 
+	api.addFiles([
+		'node_modules/antd/dist/antd.min.css'
+	], 'client');
 	api.addAssets([
 
 	], 'client');
 
-	api.mainModule('out.jsx');
+	api.mainModule('out.jsx', 'client');
 });
