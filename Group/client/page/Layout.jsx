@@ -5,7 +5,7 @@ let sy = {
 		width : util.style.MAIN_WIDTH
 	},
 	body : {
-		padding : '0 20px'
+		padding : '0 25px'
 	}
 };
 UI.Layout = class extends KUI.RC.CSS{

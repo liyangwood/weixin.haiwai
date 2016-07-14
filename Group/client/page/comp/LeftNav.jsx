@@ -17,6 +17,20 @@ UI.LeftNav = class extends KUI.RC.CSS{
 	getRenderList(){
 		let rs = [
 			{
+				id : 'qun',
+				title : '微信群设置',
+				children : [
+					{
+						id : 'list',
+						title : '列表'
+					},
+					{
+						id : 'add',
+						title : '添加'
+					}
+				]
+			},
+			{
 				id : 'autoreply',
 				title : '自动回复设置',
 				children : [

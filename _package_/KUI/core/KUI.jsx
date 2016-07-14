@@ -1,5 +1,5 @@
 
-
+import {KG, _} from 'meteor/kg:base';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ANTD from 'antd/dist/antd.min.js';
@@ -20,5 +20,33 @@ KUI.RC = RC;
 KUI.ReactMounter = mount;
 KUI.Dispatcher = Dispatcher;
 KUI.h = h;
+
+KUI.Page = class extends RC.CSSMeteorData{
+	constructor(p){
+		super(p);
+
+	}
+
+	componentDidMount(){
+		super.componentDidMount();
+
+		if(!_.isUndefined(this.data.ready)){
+			let loop = ()=>{
+				if(!this.data.ready){
+					_.delay(loop.bind(this), 100);
+				}
+				else{
+					this.runOnceAfterDataReady();
+				}
+			};
+
+			_.delay(loop.bind(this), 100);
+		}
+
+	}
+	runOnceAfterDataReady(){
+
+	}
+};
 
 export default KUI;
