@@ -331,7 +331,7 @@ let Base = class{
 
 		let list = this.defineCronJob();
 		_.each(list, function(item){
-			KG.SyncedCron.add(item);
+			//KG.SyncedCron.add(item);
 		});
 	}
 
@@ -363,14 +363,13 @@ let Base = class{
 				option.fields = opts.field;
 			};
 
-			Counts.publish(this, self._name+'-count', self._db.find(opts.query), {
-				nonReactive : true,
-				noReady : true
-			});
+			//Counts.publish(this, self._name+'-count', self._db.find(opts.query), {
+			//	nonReactive : true,
+			//	noReady : true
+			//});
 
 			return self._db.find(opts.query, option);
 		});
-
 
 		this.publishMeteorData();
 

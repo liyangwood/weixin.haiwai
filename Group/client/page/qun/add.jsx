@@ -46,10 +46,15 @@ UI.Comp_Qun_Add = class extends KUI.RC.CSS{
 	getValue(){
 		console.log(this.refs.name);
 		let rs = {
-			name : this.refs.name.refs.input.value,
-			rebot : this.refs.rebot.refs.input.value
+			name : util.ND.getInputValue(this.refs.name),
+			rebot : util.ND.getInputValue(this.refs.rebot)
 		}
 		return rs;
+	}
+
+	setValue(data){
+		util.ND.setInputValue(this.refs.name, data.name);
+		util.ND.setInputValue(this.refs.rebot, data.rebot);
 	}
 };
 
@@ -71,8 +76,74 @@ UI.Qun_Add = class extends KUI.RC.CSS{
 	}
 
 	save(){
-		console.log(this.refs.form)
+
 		let data = this.refs.form.getValue()
 		console.log(data);
+
+		KG.Qun.getDB().insert(data, function(err, nd){
+			if(err){
+
+				util.alert.error(err);
+				return false;
+			}
+			if(nd){
+				util.alert.ok('Insert Success');
+				util.goPath('/qun/list');
+			}
+		});
+
+	}
+};
+
+UI.Qun_Edit = class extends KUI.Page{
+	getMeteorData(){
+		let id = FlowRouter.getParam('id');
+		let x = Meteor.subscribe(KG.config.Qun, {
+			query : {_id : id}
+		});
+
+		return {
+			id : id,
+			ready : x.ready()
+		};
+	}
+
+	render(){
+		if(!this.data.ready){
+			return util.renderLoading();
+		}
+
+		return (
+			<div className="m-box">
+				<h3>编辑群</h3>
+				<hr/>
+				<UI.Comp_Qun_Add ref="form" />
+				<div>
+					<ND.Button type="primary" onClick={this.save.bind(this)}>保存</ND.Button>
+				</div>
+			</div>
+		);
+	}
+
+	runOnceAfterDataReady(){
+		let d = KG.Qun.getDB().findOne({_id : this.data.id});
+		this.refs.form.setValue(d);
+	}
+
+	save(){
+		let data = this.refs.form.getValue()
+		console.log(data);
+
+		KG.Qun.getDB().update({_id : this.data.id}, {$set : data}, function(err, nd){
+			if(err){
+
+				util.alert.error(err);
+				return false;
+			}
+			if(nd){
+				util.alert.ok('Update Success');
+				util.goPath('/qun/list');
+			}
+		});
 	}
 };

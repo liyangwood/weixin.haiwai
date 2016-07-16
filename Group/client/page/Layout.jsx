@@ -2,7 +2,7 @@ import {KUI} from 'meteor/kg:kui';
 
 let sy = {
 	main : {
-		width : util.style.MAIN_WIDTH
+		maxWidth : util.style.MAIN_WIDTH
 	},
 	body : {
 		padding : '0 25px'

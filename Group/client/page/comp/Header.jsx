@@ -1,7 +1,7 @@
 
 let sy = {
 	row : {
-		width : util.style.MAIN_WIDTH
+		maxWidth : util.style.MAIN_WIDTH
 	}
 };
 

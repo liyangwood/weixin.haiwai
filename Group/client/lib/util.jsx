@@ -12,17 +12,14 @@ _.extend(util, {
 	},
 
 
-	renderLoading : function(opts){
-		opts = _.extend({
-			isReady : false
-		}, opts||{});
+	renderLoading : function(msg){
+		msg = msg || '正在加在数据...';
 
-
-		return <div className="sk-spinner sk-spinner-three-bounce">
-			<div className="sk-bounce1"></div>
-			<div className="sk-bounce2"></div>
-			<div className="sk-bounce3"></div>
-		</div>;
+		return (
+			<div className="flex-center loading">
+				<ND.Spin tip={msg} />
+			</div>
+		);
 	},
 	getReactDomNode : function(reactObj){
 		return ReactDOM.findDOMNode(reactObj);
@@ -172,6 +169,15 @@ util.toast = {
 	}
 };
 
+util.alert = {
+	ok : function(title, msg){
+		swal(title, msg||'', 'success');
+	},
+	error : function(err, msg){
+		swal(err.reason||(_.isString(err))?err:err.toString(), msg||'', 'error');
+	}
+};
+
 util.user = {
 
 };
@@ -189,7 +195,17 @@ util.render = {
 
 
 util.style = {
-	MAIN_WIDTH : '1180px'
+	MAIN_WIDTH : '1180px',
+	RD : {textAlign : 'right'}
+};
+
+util.ND = {
+	getInputValue : function(reactObj){
+		return reactObj.refs.input.value;
+	},
+	setInputValue : function(reactObj, value){
+		reactObj.refs.input.value = value || '';
+	}
 };
 
 

@@ -31,6 +31,14 @@ QunRoute.route('/add', {
 		});
 	}
 });
+QunRoute.route('/edit/:id', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '群设置',
+			bodyTmpl : <UI.Qun_Edit />
+		});
+	}
+});
 
 // autoreply
 let AutoReplyRoute = FlowRouter.group({
