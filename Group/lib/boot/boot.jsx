@@ -8,7 +8,6 @@ this._ = _;
 this.moment = moment;
 if(Meteor.isClient){
 
-	UI = {};
 	window.KUI = KUI;
 	window.React = KUI.React;
 	window.ND = KUI.ANTD;

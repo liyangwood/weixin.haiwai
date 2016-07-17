@@ -141,7 +141,7 @@ UI.Qun_Edit = class extends KUI.Page{
 				return false;
 			}
 			if(nd){
-				util.alert.ok('Update Success');
+				util.alert.ok('Insert Success');
 				util.goPath('/qun/list');
 			}
 		});

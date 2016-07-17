@@ -5,8 +5,10 @@ export default Wenda = {
 		optional : true
 	}),
 	keyword : KG.schema.default(),
-	content : KG.schema.default(),
-	qunID : KG.schema.default(),
+	reply : KG.schema.default(),
+	qunID : KG.schema.default({
+		optional : true
+	}),
 
 	createTime : KG.schema.createTime(),
 	updateTime : KG.schema.updateTime()

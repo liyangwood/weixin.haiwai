@@ -1,4 +1,5 @@
 
 export default {
-	Qun : 'HW-Qun'
+	Qun : 'HW-Qun',
+	Wenda : 'HW-Wenda'
 };

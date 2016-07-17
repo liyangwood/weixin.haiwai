@@ -21,8 +21,10 @@ _.extend(util, {
 			</div>
 		);
 	},
+
+
 	getReactDomNode : function(reactObj){
-		return ReactDOM.findDOMNode(reactObj);
+		return KUI.ReactDOM.findDOMNode(reactObj);
 	},
 	getReactJQueryObject : function(reactObj){
 		return $(util.getReactDomNode(reactObj));

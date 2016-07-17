@@ -32,7 +32,7 @@ UI.LeftNav = class extends KUI.RC.CSS{
 			},
 			{
 				id : 'autoreply',
-				title : '自动回复设置',
+				title : '问答设置',
 				children : [
 					{
 						id : 'wendaku',

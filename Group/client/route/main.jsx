@@ -55,7 +55,15 @@ AutoReplyRoute.route('/wendaku', {
 	action(p){
 		App.routeHandler(p, {
 			pageTitle : '问答库',
-			bodyTmpl : <UI.Autoreply_Wendaku_index />
+			bodyTmpl : <UI.Wenda_Index />
+		});
+	}
+});
+AutoReplyRoute.route('/wendaku/add', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '问答库',
+			bodyTmpl : <UI.Wenda_Add />
 		});
 	}
 });
