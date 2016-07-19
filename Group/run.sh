@@ -61,11 +61,11 @@ runGoogleEWC(){
 }
 
 runGoogleEWCNoRunning(){
-    PORT=80
+    PORT=7000
     MONGOURL=mongodb://127.0.0.1:27017/HW-Weixin
 
-    ps -ef |grep meteor|grep 80 |awk '{print $2}'|xargs sudo kill -9
-    ps -ef |grep meteor|grep 80 |awk '{print $2}'|xargs sudo kill -9
+    ps -ef |grep meteor|grep 7000 |awk '{print $2}'|xargs sudo kill -9
+    ps -ef |grep meteor|grep 7001 |awk '{print $2}'|xargs sudo kill -9
 
     export MONGO_URL=$MONGOURL
 
@@ -78,9 +78,9 @@ runGoogleEWCNoRunning(){
 
     echo "---- set env end ----"
 
-    #sudo iptables -t nat -D PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
-    #sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
-    #sudo iptables-save
+    sudo iptables -t nat -D PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 7000
+    sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 7000
+    sudo iptables-save
 }
 
 
