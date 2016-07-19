@@ -55,13 +55,13 @@ runGoogleEWC(){
     echo "PACKAGE_DIRS=${PACKAGE_DIRS}"
 
 
-    sudo meteor run --port $PORT
+    meteor run --port $PORT
 
     echo "---- set env end ----"
 }
 
 runGoogleEWCNoRunning(){
-    PORT=7010
+    PORT=80
     MONGOURL=mongodb://127.0.0.1:27017/HW-Weixin
 
     export MONGO_URL=$MONGOURL
@@ -71,7 +71,7 @@ runGoogleEWCNoRunning(){
     echo "PACKAGE_DIRS=${PACKAGE_DIRS}"
 
 
-    sudo meteor run --port $PORT >nohup.log &
+    meteor run --port $PORT >nohup.log &
 
     echo "---- set env end ----"
 }
