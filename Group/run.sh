@@ -44,9 +44,28 @@ runLocalHost(){
     meteor --port $PORT
 }
 
+runGoogleEWC(){
+    PORT=80
+
+    export MONGO_URL=$MONGOURL
+
+    echo "---- start set env ----"
+    export $ENV
+    echo "PACKAGE_DIRS=${PACKAGE_DIRS}"
+
+
+    sudo meteor run --port $PORT >nohup.log &
+
+    echo "---- set env end ----"
+}
+
 
 
 case "$1" in
+
+    google)
+        runGoogleEWC $1
+        ;;
 
     *)
         runLocalHost $1
