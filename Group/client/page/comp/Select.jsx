@@ -2,11 +2,11 @@ UI.Comp_Select = class extends KUI.RC.CSS{
 	constructor(p){
 		super(p);
 
-		this.value = null;
+		this.state = {value : null};
 	}
 
 	change(v){
-		this.value = v;
+		this.setValue(v);
 	}
 
 	render(){
@@ -14,9 +14,8 @@ UI.Comp_Select = class extends KUI.RC.CSS{
 		delete this.props.option;
 
 
-console.log(option)
 		return (
-			<ND.Select onChange={this.change.bind(this)} {... this.props}>
+			<ND.Select value={this.state.value} onChange={this.change.bind(this)} {... this.props}>
 				{
 					_.map(option, (item, index)=>{
 						return <ND.Select.Option key={index} value={item.value}>{item.key}</ND.Select.Option>
@@ -27,10 +26,17 @@ console.log(option)
 	}
 
 	componentDidMount(){
-		this.value = this.props.defaultValue;
+		this.setValue(this.props.defaultValue);
+	}
+
+	componentDidUpdate(){
+
 	}
 
 	getValue(){
-		return this.value;
+		return this.state.value;
+	}
+	setValue(v){
+		this.setState({value : v});
 	}
 };

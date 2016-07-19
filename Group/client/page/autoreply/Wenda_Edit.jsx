@@ -1,0 +1,47 @@
+
+UI.Wenda_Edit = class extends KUI.Page{
+	getMeteorData(){
+		let id = FlowRouter.getParam('id');
+
+		let x = Meteor.subscribe(KG.config.Wenda, {
+			query : {_id : id}
+		});
+
+		return {
+			id : id,
+			ready : x.ready()
+		}
+	}
+
+	render(){
+		if(!this.data.ready){
+			return util.renderLoading();
+		}
+
+		let d = KG.Wenda.getDB().findOne({_id : this.data.id});
+
+		return (
+			<div className="m-box">
+				<h3>编辑问答</h3>
+				<hr/>
+				<UI.Comp_Wenda_Add init-data={d} ref="form" />
+				<div>
+					<ND.Button type="primary" onClick={this.save.bind(this)}>保存</ND.Button>
+				</div>
+			</div>
+		);
+	}
+
+	save(){
+		let data = this.refs.form.getValue();
+		console.log(data);
+
+		let nd = KG.Wenda.getDB().update({_id : this.data.id}, {
+			$set : data
+		});
+		if(nd){
+			util.alert.ok('Update Success');
+			util.goPath('/autoreply/wendaku');
+		}
+	}
+};

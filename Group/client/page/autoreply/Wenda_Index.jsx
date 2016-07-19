@@ -25,6 +25,12 @@ UI.Wenda_Index = class extends UI.StatePage{
 	renderTable(list){
 		let titleArray = [
 			{
+				title : 'ID',
+				render(t, doc){
+					return <a href={`/autoreply/wendaku/edit/${doc._id}`}>{doc._id}</a>;
+				}
+			},
+			{
 				title : '群名称',
 				dataIndex : 'qun.name'
 			},

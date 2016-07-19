@@ -67,3 +67,11 @@ AutoReplyRoute.route('/wendaku/add', {
 		});
 	}
 });
+AutoReplyRoute.route('/wendaku/edit/:id', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '问答库',
+			bodyTmpl : <UI.Wenda_Edit />
+		});
+	}
+});

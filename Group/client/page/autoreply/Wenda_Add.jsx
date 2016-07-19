@@ -1,5 +1,6 @@
 
 UI.Comp_Wenda_Add = class extends KUI.Page{
+
 	getMeteorData(){
 		let x = Meteor.subscribe(KG.config.Qun);
 
@@ -81,6 +82,16 @@ UI.Comp_Wenda_Add = class extends KUI.Page{
 		};
 	}
 	setValue(d){
+		util.ND.setInputValue(this.refs.type, d.type);
+		util.ND.setInputValue(this.refs.keyword, d.keyword);
+		util.ND.setInputValue(this.refs.reply, d.reply);
+		this.refs.qun.setValue(d.qunID);
+	}
+	runOnceAfterDataReady(){
+		let d = this.props['init-data'];
+		if(d){
+			this.setValue(d);
+		}
 
 	}
 };
