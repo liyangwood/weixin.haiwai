@@ -1,0 +1,3 @@
+PACKAGE_ROOT=$PWD/../_package_:$PWD/../_library_;
+
+GROUP_ENV="PACKAGE_DIRS=${PACKAGE_ROOT}";
