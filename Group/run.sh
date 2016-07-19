@@ -79,7 +79,7 @@ runGoogleEWCNoRunning(){
 
 
 case "$1" in
-    google_nohub)
+    google_nohup)
         runGoogleEWC $1
         ;;
 
