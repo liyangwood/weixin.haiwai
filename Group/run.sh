@@ -61,11 +61,11 @@ runGoogleEWC(){
 }
 
 runGoogleEWCNoRunning(){
-    PORT=80
+    PORT=8080
     MONGOURL=mongodb://127.0.0.1:27017/HW-Weixin
 
-    ps -ef |grep meteor|grep 80 |awk '{print $2}'|xargs sudo kill -9
-    ps -ef |grep meteor|grep 81 |awk '{print $2}'|xargs sudo kill -9
+    ps -ef |grep meteor|grep 8080 |awk '{print $2}'|xargs sudo kill -9
+    ps -ef |grep meteor|grep 8081 |awk '{print $2}'|xargs sudo kill -9
 
     export MONGO_URL=$MONGOURL
 
@@ -77,6 +77,9 @@ runGoogleEWCNoRunning(){
     sudo -E meteor run --settings settings.json --port $PORT >nohup.log &
 
     echo "---- set env end ----"
+
+    iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+    iptables-save
 }
 
 
