@@ -61,11 +61,11 @@ runGoogleEWC(){
 }
 
 runGoogleEWCNoRunning(){
-    PORT=7000
+    PORT=7010
     MONGOURL=mongodb://127.0.0.1:27017/HW-Weixin
 
-    ps -ef |grep meteor|grep 7000 |awk '{print $2}'|xargs sudo kill -9
-    ps -ef |grep meteor|grep 7001 |awk '{print $2}'|xargs sudo kill -9
+    ps -ef |grep meteor|grep 7010 |awk '{print $2}'|xargs sudo kill -9
+    ps -ef |grep meteor|grep 7011 |awk '{print $2}'|xargs sudo kill -9
 
     export MONGO_URL=$MONGOURL
 
