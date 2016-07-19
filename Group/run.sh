@@ -78,8 +78,9 @@ runGoogleEWCNoRunning(){
 
     echo "---- set env end ----"
 
-    iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
-    iptables-save
+    sudo iptables -t nat -D PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+    sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+    sudo iptables-save
 }
 
 
