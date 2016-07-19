@@ -45,7 +45,7 @@ runLocalHost(){
 }
 
 runGoogleEWC(){
-    PORT=7000
+    PORT=7010
     MONGOURL=mongodb://127.0.0.1:27017/HW-Weixin
 
     export MONGO_URL=$MONGOURL
