@@ -7,7 +7,7 @@ ln -s $PWD/../_ui_ $PWD/client/_ui_
 PACKAGE_ROOT=$PWD/../_package_:$PWD/../_library_
 ENV="PACKAGE_DIRS=$PACKAGE_ROOT"
 
-MONGOURL=mongodb://127.0.0.1:27017/HW-Qun
+MONGOURL=mongodb://127.0.0.1:27017/HW-Weixin
 
 
 #echo $ENV
@@ -55,7 +55,7 @@ runGoogleEWC(){
     echo "PACKAGE_DIRS=${PACKAGE_DIRS}"
 
 
-    meteor run --port $PORT
+    sudo meteor run --port $PORT
 
     echo "---- set env end ----"
 }
@@ -64,6 +64,9 @@ runGoogleEWCNoRunning(){
     PORT=80
     MONGOURL=mongodb://127.0.0.1:27017/HW-Weixin
 
+    ps -ef |grep meteor|grep 80 |awk '{print $2}'|xargs sudo kill -9
+    ps -ef |grep meteor|grep 81 |awk '{print $2}'|xargs sudo kill -9
+
     export MONGO_URL=$MONGOURL
 
     echo "---- start set env ----"
@@ -71,7 +74,7 @@ runGoogleEWCNoRunning(){
     echo "PACKAGE_DIRS=${PACKAGE_DIRS}"
 
 
-    sudo meteor --port $PORT >nohup.log &
+    sudo -E meteor run --settings settings.json --port $PORT >nohup.log &
 
     echo "---- set env end ----"
 }

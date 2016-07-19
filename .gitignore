@@ -3,3 +3,4 @@ node_modules
 .meteor/local
 npm-debug.log
 dev_bundle
+nohup.log
