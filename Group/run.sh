@@ -75,7 +75,7 @@ runGoogleEWCNoRunning(){
 
 
     #sudo -E meteor run --settings settings.json --port $PORT >nohup.log &
-    sudo -E meteor run --settings settings.json --port $PORT >nohup.log &
+    meteor run --settings settings.json --port $PORT >nohup.log &
 
     echo "---- set env end ----"
 
