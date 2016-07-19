@@ -74,13 +74,14 @@ runGoogleEWCNoRunning(){
     echo "PACKAGE_DIRS=${PACKAGE_DIRS}"
 
 
+    #sudo -E meteor run --settings settings.json --port $PORT >nohup.log &
     sudo -E meteor run --settings settings.json --port $PORT >nohup.log &
 
     echo "---- set env end ----"
 
-    sudo iptables -t nat -D PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 7000
-    sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 7000
-    sudo iptables-save
+    #sudo iptables -t nat -D PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 7000
+    #sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 7000
+    #sudo iptables-save
 }
 
 
