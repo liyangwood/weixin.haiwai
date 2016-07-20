@@ -10,12 +10,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "antd": "^1.6.4",
+    "flux": "^2.1.1",
     "immutable": "^3.8.1",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
-    "react-mounter": "^1.2.0",
-    "flux": "^2.1.1",
-
-    "antd": "^1.6.4"
+    "react-mixin": "^2.0.2",
+    "react-mounter": "^1.2.0"
   }
 }

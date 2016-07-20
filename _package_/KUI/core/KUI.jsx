@@ -10,6 +10,9 @@ import {mount} from 'react-mounter'
 var Dispatcher = require('flux').Dispatcher;
 import h from '../lib/h.jsx';
 
+import reactMixin from 'react-mixin';
+import {ReactMeteorData} from 'meteor/react-meteor-data';
+
 let KUI = {};
 
 
@@ -20,6 +23,9 @@ KUI.RC = RC;
 KUI.ReactMounter = mount;
 KUI.Dispatcher = Dispatcher;
 KUI.h = h;
+
+KUI.reactMixin = reactMixin;
+KUI.ReactMeteorData = ReactMeteorData;
 
 KUI.Page = class extends RC.CSSMeteorData{
 	constructor(p){

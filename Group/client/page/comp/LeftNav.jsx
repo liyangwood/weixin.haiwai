@@ -41,6 +41,16 @@ UI.LeftNav = class extends KUI.RC.CSS{
 				]
 			},
 			{
+				id : 'publish',
+				title : '发布内容',
+				children : [
+					{
+						id : 'timer',
+						title : '定时发布'
+					}
+				]
+			},
+			{
 				id : 'other',
 				title : '其他设置'
 			}

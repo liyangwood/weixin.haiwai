@@ -19,6 +19,8 @@ Package.onUse(function (api) {
 	api.use("modules");
 
 	var packages = [
+		'react-meteor-data',
+
 		'kg:base'
 
 	];

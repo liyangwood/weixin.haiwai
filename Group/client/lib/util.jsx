@@ -198,7 +198,8 @@ util.render = {
 
 util.style = {
 	MAIN_WIDTH : '1180px',
-	RD : {textAlign : 'right'}
+	RD : {textAlign : 'right'},
+	TD : {textAlign : 'center'}
 };
 
 util.ND = {

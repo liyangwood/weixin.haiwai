@@ -75,3 +75,16 @@ AutoReplyRoute.route('/wendaku/edit/:id', {
 		});
 	}
 });
+
+//publish
+let PublishRoute = FlowRouter.group({
+	prefix: '/publish'
+});
+PublishRoute.route('/timer/add', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '定时发布',
+			bodyTmpl : <UI.Publish_Timer_Add />
+		});
+	}
+});

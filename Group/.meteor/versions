@@ -32,6 +32,7 @@ htmljs@1.0.10
 http@1.1.7
 id-map@1.0.8
 jquery@1.11.9
+jsx@0.2.4
 kadira:flow-router@2.12.1
 kg:base@1.0.0
 kg:group@1.0.0
@@ -50,6 +51,7 @@ observe-sequence@1.0.12
 ordered-dict@1.0.8
 promise@0.7.2_1
 random@1.0.10
+react-meteor-data@0.1.9
 reactive-dict@1.1.8
 reactive-var@1.0.10
 reload@1.1.10

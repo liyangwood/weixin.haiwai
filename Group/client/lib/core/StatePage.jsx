@@ -1,8 +1,7 @@
 import {KG, _} from 'meteor/kg:base';
 import {KUI} from 'meteor/kg:kui';
+import './a.jsx';
 
-
-UI = {};
 
 UI.StatePage = class extends KUI.Page{
 	getMeteorData(){
@@ -46,5 +45,3 @@ UI.StatePage = class extends KUI.Page{
 		return null;
 	}
 };
-
-this.UI = UI;
