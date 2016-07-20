@@ -150,8 +150,9 @@ UI.CM.Publish_Content = class extends KUI.RC.CSS{
 				content : v.content,
 				type : v.type
 			};
-			d.time = moment(moment(v.date).format(KG.const.dateFormat)+' '+v.time, KG.const.dateAllFormat).toDate();
-
+			d.time = moment( moment(v.date).format(KG.const.dateFormat)+' '+v.time, KG.const.dateAllFormat).toDate();
+			d.time = new Date(d.time);
+	console.log(d);
 			callback(d);
 		});
 	}

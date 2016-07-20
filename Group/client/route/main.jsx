@@ -80,6 +80,14 @@ AutoReplyRoute.route('/wendaku/edit/:id', {
 let PublishRoute = FlowRouter.group({
 	prefix: '/publish'
 });
+PublishRoute.route('/timer', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '定时发布',
+			bodyTmpl : <UI.Publish_Timer_List />
+		});
+	}
+});
 PublishRoute.route('/timer/add', {
 	action(p){
 		App.routeHandler(p, {

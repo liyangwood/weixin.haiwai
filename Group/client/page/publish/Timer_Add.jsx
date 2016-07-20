@@ -25,6 +25,8 @@ UI.Publish_Timer_Add = class extends KUI.RC.CSS{
 			if(!d) return false;
 			console.log(d);
 
+			d.publishType = 'timer';
+
 			KG.Content.getDB().insert(d, function(err, nid){
 				if(err){
 					util.alert.error(err);

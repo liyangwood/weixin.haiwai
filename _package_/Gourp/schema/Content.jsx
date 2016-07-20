@@ -1,6 +1,8 @@
 import {KG} from 'meteor/kg:base';
 
 export const Content = {
+	createTime : KG.schema.createTime(),
+	updateTime : KG.schema.updateTime(),
 	type : KG.schema.default({
 		allowedValues : ['text', 'image', 'link', 'media']
 	}),
@@ -9,12 +11,14 @@ export const Content = {
 	}),
 
 	assignGroup : KG.schema.default({
-		type : [String]
+		type : [String],
+		optional : true,
+		defaultValue : []
 	}),
 	publishType : KG.schema.default({
 		//timer:定时发布，common:普通发布
 		allowedValues : ['timer', 'common'],
-		defaultValue : ['common'],
+		defaultValue : 'common',
 		optional : true
 	}),
 
@@ -24,12 +28,12 @@ export const Content = {
 		optional : true
 	},
 
+
+
+
 	//可能的媒体文件
 	attachFile : {
 		optional : true,
 		type : String
-	},
-
-	createTime : KG.schema.createTime(),
-	updateTime : KG.schema.updateTime()
+	}
 };
