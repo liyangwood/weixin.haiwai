@@ -127,9 +127,12 @@ let ELEM = class extends KUI.React.Component{
 KUI.reactMixin(ELEM.prototype, KUI.ReactMeteorData);
 
 
-UI.CM.Publish_Content = class extends KUI.RC.CSS{
+UI.CM.Publish_Content = class extends KUI.Page{
 	constructor(p){
 		super(p);
+	}
+	getMeteorData(){
+		return {ready : true};
 	}
 	render(){
 		let Elem= ND.Form.create()(ELEM);
@@ -155,5 +158,27 @@ UI.CM.Publish_Content = class extends KUI.RC.CSS{
 	console.log(d);
 			callback(d);
 		});
+	}
+
+	setValue(d){
+		console.log(d);
+		this.refs.form.setFieldsValue({
+			content : d.content,
+			assignGroup : d.assignGroup,
+			type : d.type
+		});
+		let tmp = moment(d.time).format(KG.const.dateAllFormat).split(' ');
+		this.refs.form.setFieldsValue({
+			time : tmp[1],
+			date : moment(tmp[0], KG.const.dateFormat).toDate()
+		});
+
+	}
+
+	runOnceAfterDataReady(){
+		let d = this.props['init-data'];
+		if(d){
+			this.setValue(d);
+		}
 	}
 };

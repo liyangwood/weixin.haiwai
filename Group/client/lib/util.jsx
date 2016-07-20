@@ -42,10 +42,6 @@ _.extend(util, {
 
 	renderNoViewPermission : function(){
 		return <h3>{util.const.NoViewPermission}</h3>
-	},
-
-	getModuleName : function(x){
-		return 'EF-'+x;
 	}
 });
 

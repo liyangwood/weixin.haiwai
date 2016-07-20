@@ -96,3 +96,11 @@ PublishRoute.route('/timer/add', {
 		});
 	}
 });
+PublishRoute.route('/timer/edit/:id', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '定时发布',
+			bodyTmpl : <UI.Publish_Timer_Edit />
+		});
+	}
+});

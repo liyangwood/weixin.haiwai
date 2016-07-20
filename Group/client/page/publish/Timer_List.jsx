@@ -1,5 +1,11 @@
 
 UI.Publish_Timer_List = class extends KUI.Page{
+	constructor(p){
+		super(p);
+		this.state = {
+			loading : false
+		};
+	}
 
 	getMeteorData(){
 		let x1 = Meteor.subscribe(KG.config.Qun),
@@ -14,13 +20,17 @@ UI.Publish_Timer_List = class extends KUI.Page{
 	}
 
 	render(){
-		if(!this.data.ready){
+		if(!this.data.ready || this.state.loading){
 			return util.renderLoading();
 		}
 
 		let list = KG.Content.getDB().find({
 			time : {
 				'$gt' : new Date()
+			}
+		}, {
+			sort : {
+				time : 1
 			}
 		}).fetch();
 
@@ -38,11 +48,12 @@ UI.Publish_Timer_List = class extends KUI.Page{
 	}
 
 	renderTable(list){
+		let self = this;
 		let titleArray = [
 			{
 				title : 'ID',
 				render(t, doc){
-					return <a href={``}>{doc._id}</a>;
+					return <a href={`/publish/timer/edit/${doc._id}`}>{doc._id}</a>
 				}
 			},
 			{
@@ -68,10 +79,43 @@ UI.Publish_Timer_List = class extends KUI.Page{
 
 					return h.join(',');
 				}
+			},
+			{
+				title : '操作',
+				className : 'hw-center',
+				render(t, doc){
+					let del = ()=>{
+						self.delete(doc._id);
+					};
+
+					return <ND.Button onClick={del}><ND.Icon type="cross" /></ND.Button>;
+				}
 			}
 		];
 
-		return <ND.Table columns={titleArray} size="middle" dataSource={list} pagination={false} />
+		return <ND.Table columns={titleArray} bordered size="middle" dataSource={list} pagination={false} />
+	}
+
+	delete(id){
+		let self = this;
+		swal({
+			title: "确认删除？",
+			text: "",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: "确认",
+			cancelButtonText: "取消",
+			closeOnConfirm: true,
+			closeOnCancel: true
+		}, function(isConfirm){
+			if(isConfirm){
+				self.setState({loading : true});
+				KG.Content.getDB().remove({_id : id});
+				self.setState({loading : false});
+			}
+
+		});
 	}
 
 };
