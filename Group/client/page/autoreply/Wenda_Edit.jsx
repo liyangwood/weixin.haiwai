@@ -27,6 +27,8 @@ UI.Wenda_Edit = class extends KUI.Page{
 				<UI.Comp_Wenda_Add init-data={d} ref="form" />
 				<div>
 					<ND.Button type="primary" onClick={this.save.bind(this)}>保存</ND.Button>
+
+					<ND.Button style={{marginLeft:'30px'}} type="default" onClick={this.delete.bind(this)}>删除</ND.Button>
 				</div>
 			</div>
 		);
@@ -43,5 +45,25 @@ UI.Wenda_Edit = class extends KUI.Page{
 			util.alert.ok('Update Success');
 			util.goPath('/autoreply/wendaku');
 		}
+	}
+	delete(){
+		let self = this;
+		swal({
+			title: "确认删除这个问答？",
+			text: "",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: "确认",
+			cancelButtonText: "取消",
+			closeOnConfirm: true,
+			closeOnCancel: true
+		}, function(isConfirm){
+			if(isConfirm){
+				KG.Wenda.getDB().remove({_id : self.data.id});
+				util.goPath('/autoreply/wendaku');
+			}
+
+		});
 	}
 };
