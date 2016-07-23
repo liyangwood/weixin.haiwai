@@ -39,7 +39,10 @@ let C_Table = class extends UI.StatePage{
 			},
 			{
 				title : '回复',
-				dataIndex : 'reply'
+				dataIndex : 'reply',
+				render(t, doc){
+					return <p className="max-500">{t}</p>;
+				}
 			},
 
 			{

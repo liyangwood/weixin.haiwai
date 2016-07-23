@@ -61,7 +61,6 @@ hr{
 
 }
 .hw-center{
-    display: flex;
     align-content: center;
     justify-content: center;
     align-items: center;
@@ -71,4 +70,9 @@ hr{
     background: #f3f3f3;
     border: 1px solid #ebebeb;
     padding: 20px;
+}
+.max-500{
+    word-break: break-all;
+    white-space: normal;
+    max-width:500px;
 }
