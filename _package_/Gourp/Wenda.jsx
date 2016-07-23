@@ -18,7 +18,9 @@ KG.define(config.Wenda, class extends Base{
 
 				let list = self._db.find(query, option).fetch();
 				list = _.map(list, (item)=>{
-					item.qun = KG.Qun.getDB().findOne({_id : item.qunID});
+					item.assignGroup = _.map(item.assignGroup, (l)=>{
+						return KG.Qun.getDB().findOne({_id : l});
+					});
 					return item;
 				});
 

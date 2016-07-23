@@ -13,10 +13,11 @@ _.extend(util, {
 
 
 	renderLoading : function(msg){
-		msg = msg || '正在加在数据...';
+		msg = msg || 'Loading ...';
 
 		return (
 			<div className="flex-center loading">
+				<ND.Icon style={{fontSize:'24px', color:'#2db7f5', marginRight:'12px'}} type="loading" />
 				<ND.Spin tip={msg} />
 			</div>
 		);
@@ -194,6 +195,9 @@ util.render = {
 
 util.style = {
 	MAIN_WIDTH : '1180px',
+	ML_20 : {marginLeft : '20px'},
+	ML_12 : {marginLeft : '12px'},
+	ML_25 : {marginLeft : '25px'},
 	RD : {textAlign : 'right'},
 	TD : {textAlign : 'center'}
 };

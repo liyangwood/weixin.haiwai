@@ -6,7 +6,9 @@ export default Wenda = {
 	}),
 	keyword : KG.schema.default(),
 	reply : KG.schema.default(),
-	qunID : KG.schema.default({
+	assignGroup : KG.schema.default({
+		type : [String],
+		defaultValue : [],
 		optional : true
 	}),
 

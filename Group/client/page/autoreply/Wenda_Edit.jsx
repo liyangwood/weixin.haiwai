@@ -22,29 +22,33 @@ UI.Wenda_Edit = class extends KUI.Page{
 
 		return (
 			<div className="m-box">
-				<h3>编辑问答</h3>
+				<h3 style={util.style.TD}>编辑问答</h3>
 				<hr/>
-				<UI.Comp_Wenda_Add init-data={d} ref="form" />
-				<div>
+				<UI.CM.Wenda_Add init-data={d} ref="form" />
+				<ND.Col span={16} offset={4}>
 					<ND.Button type="primary" onClick={this.save.bind(this)}>保存</ND.Button>
 
 					<ND.Button style={{marginLeft:'30px'}} type="default" onClick={this.delete.bind(this)}>删除</ND.Button>
-				</div>
+				</ND.Col>
 			</div>
 		);
 	}
 
 	save(){
-		let data = this.refs.form.getValue();
-		console.log(data);
+		let self = this;
+		this.refs.form.getValue(function(data){
+			if(!data) return false;
+			console.log(data);
 
-		let nd = KG.Wenda.getDB().update({_id : this.data.id}, {
-			$set : data
+			let nd = KG.Wenda.getDB().update({_id : self.data.id}, {
+				$set : data
+			});
+			if(nd){
+				util.alert.ok('Update Success');
+				util.goPath('/autoreply/wendaku');
+			}
 		});
-		if(nd){
-			util.alert.ok('Update Success');
-			util.goPath('/autoreply/wendaku');
-		}
+
 	}
 	delete(){
 		let self = this;

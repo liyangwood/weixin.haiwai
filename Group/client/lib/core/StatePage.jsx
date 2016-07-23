@@ -31,17 +31,17 @@ UI.StatePage = class extends KUI.Page{
 		return '';
 	}
 
-	runOnceAfterDataReady(){
+	loading(b){
 		this.setState({
-			status : 'loading'
-		});
-
-		this.getPageData(()=>{
-			this.state.status = true;
+			status : b?'loading':true
 		});
 	}
+
+	runOnceAfterDataReady(){
+		this.getPageData();
+	}
 	getPageData(callback){
-		console.log(123);
+		this.loading(true);
 		return null;
 	}
 };
