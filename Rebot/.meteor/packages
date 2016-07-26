@@ -1,0 +1,36 @@
+meteor
+cfs:filesaver
+underscore
+session
+webapp
+logging
+tracker
+ddp
+mongo
+check
+jquery
+reload
+autoupdate
+coffeescript
+
+harrison:papa-parse
+#pfafman:filesaver
+
+standard-minifiers      # JS/CSS minifiers run for production mode
+es5-shim                # ECMAScript 5 compatibility for older browsers.
+ecmascript              # Enable ECMAScript2015+ syntax in app code
+
+#autopublish
+#insecure
+
+fourseven:scss
+
+kadira:flow-router
+iron:router
+
+http
+
+kg:base
+kg:kui
+kg:group
+kg:rebot
