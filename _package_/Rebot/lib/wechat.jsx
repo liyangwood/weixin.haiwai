@@ -8,7 +8,7 @@
 //import requestSelf from './request.jsx';
 //import request from 'request';
 ////import {parseXml} from 'xml2json';
-////var parseXml = require('xml2json');
+//var parseXml = require('xml2js').parseString;
 //import fs from 'fs';
 
 let WECHAT = {};
@@ -19,6 +19,7 @@ if(Meteor.isServer){
 	console.log(requestSelf)
 	var request = require('request');
 	var fs = require('fs');
+	var parseXml = require('xml2js').parseString;
 
 	var npmR = request;
 	var npmRequest = Meteor.wrapAsync(function(opts, callback){
@@ -153,6 +154,10 @@ if(Meteor.isServer){
 				console.log(url);
 
 
+				let rp = function(x){
+					console.log(x);
+					return x[0];
+				};
 
 				request(F.setOption({
 					url : url,
@@ -161,20 +166,36 @@ if(Meteor.isServer){
 					console.log(body);
 					F.setCookie(res.headers['set-cookie']);
 
-					var json = JSON.parse(parseXml.toJson(body));
+					parseXml(body, function (err, result) {
+						var json = result;
 
-					//{\"error\":{\"ret\":\"0\",\"message\":\"OK\",\"skey\":\"@crypt_de480f64_3680384b4b94318e5a756271fadebd8d\",\"wxsid\":\"ukZ6rZZEjaoRN3kh\",\"wxuin\":\"2919136513\",\"pass_ticket\":\"0qkd6W7WR1gh6X4hbcI4Hko18FMhpR192xd%2BnvkthFrHFv2HT5%2BuxaHmiIw8OeLV\",\"isgrayscale\":\"1\"}}
-					if(json.error.message === 'OK'){
-						wx.config.skey = json.error.skey;
-						wx.config.wxsid = json.error.wxsid;
-						wx.config.wxuin = json.error.wxuin;
-						wx.config.pass_ticket = json.error.pass_ticket;
-						wx.config.isgrayscale = json.error.isgrayscale;
+						if(rp(json.error.message) === 'OK'){
+							wx.config.skey = rp(json.error.skey);
+							wx.config.wxsid = rp(json.error.wxsid);
+							wx.config.wxuin = rp(json.error.wxuin);
+							wx.config.pass_ticket = rp(json.error.pass_ticket);
+							wx.config.isgrayscale = rp(json.error.isgrayscale);
 
-						F.getWeixinInitData();
-					}
+							F.getWeixinInitData();
+						}
 
-					wx.config.startTime = Date.now();
+						wx.config.startTime = Date.now();
+					});
+
+					//var json = JSON.parse(parseXml.toJson(body));
+					//
+					////{\"error\":{\"ret\":\"0\",\"message\":\"OK\",\"skey\":\"@crypt_de480f64_3680384b4b94318e5a756271fadebd8d\",\"wxsid\":\"ukZ6rZZEjaoRN3kh\",\"wxuin\":\"2919136513\",\"pass_ticket\":\"0qkd6W7WR1gh6X4hbcI4Hko18FMhpR192xd%2BnvkthFrHFv2HT5%2BuxaHmiIw8OeLV\",\"isgrayscale\":\"1\"}}
+					//if(json.error.message === 'OK'){
+					//	wx.config.skey = json.error.skey;
+					//	wx.config.wxsid = json.error.wxsid;
+					//	wx.config.wxuin = json.error.wxuin;
+					//	wx.config.pass_ticket = json.error.pass_ticket;
+					//	wx.config.isgrayscale = json.error.isgrayscale;
+					//
+					//	F.getWeixinInitData();
+					//}
+					//
+					//wx.config.startTime = Date.now();
 
 				});
 

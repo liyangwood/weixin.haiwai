@@ -2,5 +2,7 @@
 export default {
 	Qun : 'HW-Qun',
 	Wenda : 'HW-Wenda',
-	Content : 'HW-Content'
+	Content : 'HW-Content',
+
+	GroupMessage : 'HW-GroupMessage'
 };

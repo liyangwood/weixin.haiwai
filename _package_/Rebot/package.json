@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "request": "^2.74.0"
+    "meteor-node-stubs": "^0.2.3",
+    "request": "^2.74.0",
+    "xml2js": "^0.4.17"
   }
 }

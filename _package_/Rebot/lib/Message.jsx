@@ -4,6 +4,8 @@
  * namespace Message
  * */
 
+import {KG, _} from 'meteor/kg:base';
+
 //文字逻辑规则定义
 var TextRuleJson = [
 	{
@@ -99,9 +101,23 @@ var F = {
 	 * */
 	saveToQunDB : function(msg, wx){
 		var nick = wx.getGroupList()[msg.FromUserName].NickName;
+		var currentUser = wx.getCurrentUser();
+		console.log(nick, currentUser);
 
 		msg.GroupName = nick;
-		//DB.ZhiBoMessage.insert(msg);
+		let qun = KG.Qun.getDB().findOne({
+			name : nick,
+			rebot : currentUser.NickName
+		});
+		if(qun){
+			msg.qunID = qun._id;
+			msg.rebot = qun.rebot;
+			msg.qunName = qun.name;
+
+			KG.GroupMessage.getDB().insert(msg);
+		}
+
+		return msg;
 
 	},
 
@@ -109,6 +125,7 @@ var F = {
 
 		if(filter.type === 'Group'){
 			//save to GroupMessage db
+			msg.MessageType = 'Group';
 			msg.nickname = filter.GroupUser;
 			msg.OriContent = msg.Content;
 			msg.Content = text;
@@ -223,7 +240,7 @@ var F = {
 
 
 	processMessage : function(msg, wx){
-		console.log(msg);
+		//console.log(msg);
 		var cont = F.getContent(msg);
 		var groupList = wx.getGroupList();
 

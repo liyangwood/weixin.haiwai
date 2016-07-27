@@ -1,3 +1,11 @@
+let sy = {
+	img : {
+		width : '150px',
+		height : '150px',
+		margin : '20px auto'
+	}
+};
+
 UI.Home_Login = class extends KUI.RC.CSS{
 
 	constructor(p){
@@ -22,14 +30,7 @@ UI.Home_Login = class extends KUI.RC.CSS{
 	}
 
 	getQRCode(){
-		//var self = this;
-		//Meteor.http.get('/wx/group/getlist', function(err, res){
-		//	if(res.statusCode > 199){
-		//		var json = JSON.parse(res.content);
-		//
-		//		console.log(json.data);
-		//	}
-		//});
+		let self = this;
 
 		var data = {};
 
@@ -40,7 +41,7 @@ UI.Home_Login = class extends KUI.RC.CSS{
 			data : data,
 			success : function(flag, rs){
 				console.log(rs);
-
+				self.setState({qr : rs.url});
 			}
 		});
 	}
