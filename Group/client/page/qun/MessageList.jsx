@@ -11,7 +11,7 @@ UI.Qun_MessageList = class extends KUI.Page{
 		let x = Meteor.subscribe(KG.config.Qun, {query : {
 			_id : qunID
 		}});
-		let x1 = Meteor.subscribe(KG.config.GroupMessage, {query : {
+		let x1 = util.data.subscribe(KG.config.GroupMessage, {query : {
 			qunID : qunID
 		}});
 
@@ -62,6 +62,14 @@ UI.Qun_MessageList = class extends KUI.Page{
 			}
 		];
 
-		return <ND.Table columns={titleArray} size="middle" dataSource={list} pagination={false} />
+		let pageination = {
+			pageSize : 10,
+			total : list.length
+		};
+		if(list.length < 11){
+			pageination = false;
+		}
+
+		return <ND.Table columns={titleArray} size="middle" dataSource={list} pagination={pageination} />
 	}
 };
