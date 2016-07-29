@@ -133,7 +133,7 @@ var F = {
 
 			//F.saveToDB(msg, wx);
 
-			F.saveToQunDB(msg, wx);
+			msg = F.saveToQunDB(msg, wx);
 
 		}
 		else{
@@ -190,41 +190,19 @@ var F = {
 
 	doMessageByText : function(msg, filter, callback){
 		var text = msg.Content;
-		//var rule = DB.QunAdminCommonRole.find({
-		//	GroupName : msg.GroupName,
-		//	type : 1
-		//}).fetch();
-		//if(!rule){
-		//	return false;
-		//}
-		//
-		//var rs = '';
-		//_.each(rule, function(item){
-		//	if(text === item.key){
-		//		rs = item.result;
-		//
-		//		rs = F.replaceFilter(rs, filter);
-		//
-		//		return false;
-		//	}
-		//});
-		//
-		////过common规则
-		//var f = true;
-		//_.each(CommonRule, function(item){
-		//	if(text === item.key){
-		//		var rs = item.result;
-		//
-		//		if(_.isFunction(rs)){
-		//			rs(callback);
-		//
-		//			f = false;
-		//			return false;
-		//		}
-		//	}
-		//});
-		//
-		//f && callback(rs);
+		//query from KG.Wenda DB
+		let one = KG.Wenda.getDB().findOne({
+			keyword : text,
+			assignGroup : msg.qunID
+		});
+		console.log(filter);
+		if(one){
+			let rs = F.replaceFilter(one.reply, filter);
+
+
+			callback(rs);
+		}
+
 	},
 
 	replaceFilter : function(str, filter){
