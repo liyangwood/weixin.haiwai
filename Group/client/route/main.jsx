@@ -39,6 +39,14 @@ QunRoute.route('/edit/:id', {
 		});
 	}
 });
+QunRoute.route('/message/list', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '群消息',
+			bodyTmpl : <UI.Qun_MessageList />
+		});
+	}
+});
 
 // autoreply
 let AutoReplyRoute = FlowRouter.group({

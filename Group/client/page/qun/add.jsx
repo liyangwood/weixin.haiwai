@@ -120,6 +120,8 @@ UI.Qun_Edit = class extends KUI.Page{
 				<UI.Comp_Qun_Add ref="form" />
 				<div>
 					<ND.Button type="primary" onClick={this.save.bind(this)}>保存</ND.Button>
+					<ND.Button style={util.style.ML_20} type="primary"
+					           onClick={()=>{util.goPath(`/qun/message/list?qunID=${this.data.id}`)}}>消息记录</ND.Button>
 				</div>
 			</div>
 		);
