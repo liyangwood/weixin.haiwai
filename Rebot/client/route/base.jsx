@@ -23,11 +23,11 @@ console.log(args);
 };
 
 
-FlowRouter.route("/test", {
+FlowRouter.route("/login", {
 	action(p){
 
 		App.routeHandler(p, {
-			pageTilte : 'test',
+			pageTilte : 'Login Rebot',
 			bodyTmpl : <UI.Home_Login />
 		});
 	}

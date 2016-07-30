@@ -5,18 +5,13 @@
  * @where : server
  * */
 
-//import requestSelf from './request.jsx';
-//import request from 'request';
-////import {parseXml} from 'xml2json';
-//var parseXml = require('xml2js').parseString;
-//import fs from 'fs';
+
 
 let WECHAT = {};
 
 if(Meteor.isServer){
 	//if(Meteor.isClient) return;
 	let requestSelf = require('./request.jsx').requestSelf;
-	console.log(requestSelf)
 	var request = require('request');
 	var fs = require('fs');
 	var parseXml = require('xml2js').parseString;
@@ -28,6 +23,9 @@ if(Meteor.isServer){
 
 
 	(function(request){
+
+		//在长链接请求的时候同时启动timer，检查一定时间内请求是否返回
+		let tm = null;
 
 
 		var config = {
@@ -51,6 +49,10 @@ if(Meteor.isServer){
 
 		var F = {
 			reset : function(){
+				wx.config.isCheck = false;
+				wx.config.isConnect = false;
+				wx.config.loginState = {};
+
 				groupList = {};
 				friendList = {};
 				curentUser = {};
@@ -83,7 +85,7 @@ if(Meteor.isServer){
 
 
 
-				console.log(rs, obj);
+				//console.log(rs, obj);
 
 				wx.config.cookieObj = obj;
 				wx.config.cookie = rs;
@@ -98,7 +100,7 @@ if(Meteor.isServer){
 				});
 
 				rs = rs.slice(0, -1);
-				console.log(rs);
+				//console.log(rs);
 				wx.config.sync = key;
 				wx.config.synckey = rs;
 			},
@@ -134,7 +136,7 @@ if(Meteor.isServer){
 					url : url,
 					headers : F.getRequestHeader()
 				}), function(err, res, body){
-					console.log(body);
+					//console.log(body);
 
 					var window = {};
 					eval(body);
@@ -151,11 +153,11 @@ if(Meteor.isServer){
 				//step 2 如果用户扫码成功，开始获得微信的初始化信息
 
 				var url = wx.config.redirect_uri+'&fun=new&version=v2';
-				console.log(url);
+				//console.log(url);
 
 
 				let rp = function(x){
-					console.log(x);
+					//console.log(x);
 					return x[0];
 				};
 
@@ -163,7 +165,7 @@ if(Meteor.isServer){
 					url : url,
 					headers : F.getRequestHeader()
 				}), function(err, res, body){
-					console.log(body);
+					//console.log(body);
 					F.setCookie(res.headers['set-cookie']);
 
 					parseXml(body, function (err, result) {
@@ -182,20 +184,6 @@ if(Meteor.isServer){
 						wx.config.startTime = Date.now();
 					});
 
-					//var json = JSON.parse(parseXml.toJson(body));
-					//
-					////{\"error\":{\"ret\":\"0\",\"message\":\"OK\",\"skey\":\"@crypt_de480f64_3680384b4b94318e5a756271fadebd8d\",\"wxsid\":\"ukZ6rZZEjaoRN3kh\",\"wxuin\":\"2919136513\",\"pass_ticket\":\"0qkd6W7WR1gh6X4hbcI4Hko18FMhpR192xd%2BnvkthFrHFv2HT5%2BuxaHmiIw8OeLV\",\"isgrayscale\":\"1\"}}
-					//if(json.error.message === 'OK'){
-					//	wx.config.skey = json.error.skey;
-					//	wx.config.wxsid = json.error.wxsid;
-					//	wx.config.wxuin = json.error.wxuin;
-					//	wx.config.pass_ticket = json.error.pass_ticket;
-					//	wx.config.isgrayscale = json.error.isgrayscale;
-					//
-					//	F.getWeixinInitData();
-					//}
-					//
-					//wx.config.startTime = Date.now();
 
 				});
 
@@ -224,7 +212,7 @@ if(Meteor.isServer){
 						BaseRequest : F.getBaseRequest()
 					}
 				}), function(err, res, body){
-					console.log(body);
+					//console.log(body);
 
 
 					wx.config.skey = body['SKey'];
@@ -302,7 +290,7 @@ if(Meteor.isServer){
 						rr : Date.now()
 					}
 				}), function(err, res, body){
-					console.log(body);
+					//console.log(body);
 
 					F.setSyncKey(body.SyncKey);
 
@@ -311,8 +299,20 @@ if(Meteor.isServer){
 
 					F.getAllFriendsList();
 
+					wx.config.isConnect = true;
 					F.loopCheckNewChats();
+
 				});
+			},
+
+			checkLoopTime : function(){
+
+				if(!wx.config.isConnect){
+					return false;
+				}
+
+
+				return true;
 			},
 
 			loopCheckNewChats : function(){
@@ -330,7 +330,11 @@ if(Meteor.isServer){
 
 				var cookie = wx.config.cookie;
 
-				console.log(url);
+				tm = Meteor.setTimeout(function(){
+					F.reset();
+					F.getWeixinConfigAfterLogin();
+				}, 1000*50*5);
+
 				request({
 					url : url,
 					method : 'GET',
@@ -343,6 +347,10 @@ if(Meteor.isServer){
 				}, function(err, res, body){
 					console.log(err, body);
 
+					if(tm){
+						Meteor.clearTimeout(tm);
+					}
+
 					//window.synccheck={retcode:"0",selector:"2"}
 					var json = JSON.parse(body);
 					if(json.retcode > 0){
@@ -350,18 +358,18 @@ if(Meteor.isServer){
 						F.reset();
 						F.getWeixinConfigAfterLogin();
 					}
-					else if(json.selector > 0){
-						F.getNewMessage();
-					}
 					else{
-
-						var n = Date.now();
-						if(n-wx.config.startTime > 1000*60*60*2){
-							wx.config.startTime = n;
-							F.getWeixinInitData();
+						if(json.selector > 0){
+							F.getNewMessage(function(){
+								if(F.checkLoopTime()){
+									F.loopCheckNewChats();
+								}
+							});
 						}
 						else{
-							F.loopCheckNewChats();
+							if(F.checkLoopTime()){
+								F.loopCheckNewChats();
+							}
 						}
 
 
@@ -371,7 +379,7 @@ if(Meteor.isServer){
 
 				});
 			},
-			getNewMessage : function(){
+			getNewMessage : function( callback ){
 
 				var url = wx.config.host+'/mmwebwx-bin/webwxsync?sid='+wx.config.wxsid+'&skey='+wx.config.skey+'';
 				var formData = {
@@ -389,12 +397,14 @@ if(Meteor.isServer){
 					F.setSyncKey(body.SyncKey);
 					F.setCookie(res.headers['set-cookie']);
 
-					// continue loop
-					F.loopCheckNewChats();
 
 
 					F.doAllContactList(body);
 					F.process(body);
+
+					if(callback){
+						callback();
+					}
 
 				});
 			},
@@ -482,7 +492,6 @@ if(Meteor.isServer){
 
 					});
 
-					console.log(groupList);
 				});
 			}
 
@@ -505,6 +514,15 @@ if(Meteor.isServer){
 
 			getFriendList : function(){
 				return friendList;
+			},
+
+			getCurrentStatus : function(){
+				return {
+					user : wx.getCurrentUser(),
+					connect : wx.config.isConnect,
+					groupList : wx.getGroupList(),
+					loginState : wx.config.loginState
+				};
 			},
 
 			setting : function(setting){
@@ -532,7 +550,7 @@ if(Meteor.isServer){
 				request(F.setOption({
 					url : url
 				}), function(err, res, body){
-					console.log(body);
+					//console.log(body);
 					//window.QRLogin.code = 200; window.QRLogin.uuid = "oeb5B863ng=="
 					var window = {};
 					window.QRLogin = {};
@@ -641,7 +659,7 @@ if(Meteor.isServer){
 					json : true,
 					data : data
 				}), function(err, res, body){
-					console.log(body);
+					//console.log(body);
 					callback(err, body);
 
 				});
@@ -715,7 +733,7 @@ if(Meteor.isServer){
 						'User-Agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'
 					}
 				}), function(err, res, body){
-					console.log(body);
+					//console.log(body);
 					body && callback(body);
 				});
 			},
@@ -724,7 +742,7 @@ if(Meteor.isServer){
 				if(!wx.config.skey) return;
 				var url = wx.config.host + '/mmwebwx-bin/webwxgetvideo?msgid='+id+'&skey='+wx.config.skey;
 
-				console.log(url);
+				//console.log(url);
 				//TODO 有问题，原因未知 需要和微信对照
 
 				npmRequest(F.setOption({
@@ -736,7 +754,7 @@ if(Meteor.isServer){
 						'Range' : 'bytes=0-'
 					}
 				}), function(err, res, body){
-					console.log(res.statusCode, res.headers, body);
+					//console.log(res.statusCode, res.headers, body);
 
 					body && body.length>100 && callback(body);
 				});
@@ -766,12 +784,18 @@ if(Meteor.isServer){
 						'User-Agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'
 					}
 				}), function(err, res, body){
-					console.log(body);
+					//console.log(body);
 					callback(body);
 
 				});
 
+			},
+
+
+			stop : function(){
+				F.reset();
 			}
+
 		};
 
 

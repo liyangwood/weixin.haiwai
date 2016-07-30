@@ -150,7 +150,7 @@ UI.Layout = class extends KUI.RC.CSS{
 				<div className="main-wrapper" style={sy.main}>
 					<ND.Row>
 
-						<ND.Col span={20} style={sy.body}>
+						<ND.Col span={24} style={sy.body}>
 							{/* body */}
 							<UI.Body tmpl={this.props.body} />
 						</ND.Col>

@@ -26,7 +26,7 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 fourseven:scss
 
 kadira:flow-router
-iron:router
+meteorhacks:picker
 
 http
 
