@@ -56,7 +56,7 @@ runGoogleEWCNoRunning(){
     echo "PACKAGE_DIRS=${PACKAGE_DIRS}"
 
 
-    sudo -E meteor run --settings settings.json --port $PORT &
+    sudo -E meteor run --settings settings.json --port $PORT >nohup.log &
     #meteor run --settings settings.json --port $PORT >nohup.log &
 
     echo "---- set env end ----"
