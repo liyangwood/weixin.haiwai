@@ -154,7 +154,7 @@ if(Meteor.isServer){
 
 				var url = wx.config.redirect_uri+'&fun=new&version=v2';
 				//console.log(url);
-
+				console.log('------ 开始初始化微信信息 -------');
 
 				let rp = function(x){
 					//console.log(x);
@@ -300,6 +300,7 @@ if(Meteor.isServer){
 					F.getAllFriendsList();
 
 					wx.config.isConnect = true;
+					console.log('----- 开始微信长链接请求 -----');
 					F.loopCheckNewChats();
 
 				});

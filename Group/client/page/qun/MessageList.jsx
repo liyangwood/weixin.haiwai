@@ -51,6 +51,10 @@ UI.Qun_MessageList = class extends KUI.Page{
 				dataIndex : 'UserObject.NickName'
 			},
 			{
+				title : 'Display Name',
+				dataIndex : 'UserObject.DisplayName'
+			},
+			{
 				title : 'Content',
 				dataIndex : 'Content'
 			},
