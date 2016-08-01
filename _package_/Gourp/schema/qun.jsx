@@ -7,6 +7,21 @@ export const Qun = {
 	rebot : KG.schema.default({
 		optional : true
 	}),
+	owner : KG.schema.default({
+		optional : true
+	}),
+
+	info : {
+		type : Object,
+		blackbox : true,
+		optional : true,
+		defaultValue : {
+			//number
+			//secondOwner
+
+		}
+	},
+
 	createTime : KG.schema.createTime(),
 	updateTime : KG.schema.updateTime()
 };

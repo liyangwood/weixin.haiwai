@@ -46,6 +46,13 @@ UI.Qun_List = class extends KUI.Page{
 				dataIndex : 'rebot'
 			},
 			{
+				title : '群人数',
+				dataIndex : 'info.number',
+				render(t, doc){
+					return t || '';
+				}
+			},
+			{
 				title : '创建时间',
 				render(txt, doc){
 					return moment(doc.createTime).format(KG.const.dateAllFormat);

@@ -6,6 +6,7 @@
  * */
 
 
+import {KG, _} from 'meteor/kg:base';
 
 let WECHAT = {};
 
@@ -268,10 +269,26 @@ if(Meteor.isServer){
 				});
 
 				groupList[item.UserName] = item;
-				f && wx.getHeadImage(item, function(path){
+				//f && wx.getHeadImage(item, function(path){
+				//
+				//	item.headUrl = path;
+				//});
 
-					item.headUrl = path;
-				});
+				//update qun info
+				let c = KG.Qun.getDB().find({
+					name : item.NickName,
+					rebot : curentUser.NickName
+				}).count();
+				if(c>0){
+					KG.Qun.getDB().update({
+						name : item.NickName,
+						rebot : curentUser.NickName
+					}, {$set : {
+						info : {
+							number : item.MemberCount
+						}
+					}});
+				}
 			},
 
 			beforeLoopCheck : function(){
