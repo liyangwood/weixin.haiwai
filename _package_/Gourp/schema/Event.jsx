@@ -21,6 +21,12 @@ export const Event = {
 		optional : true
 	}),
 
+	status : KG.schema.default({
+		optional : true,
+		allowedValues : ['acitve', 'inactive'],
+		defaultValue : ['active']
+	}),
+
 	startTime : {
 		type : Date,
 		optional : true

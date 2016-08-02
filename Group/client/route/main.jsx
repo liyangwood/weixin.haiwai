@@ -112,3 +112,24 @@ PublishRoute.route('/timer/edit/:id', {
 		});
 	}
 });
+
+//event
+let EventRoute = FlowRouter.group({
+	prefix: '/event'
+});
+EventRoute.route('/add', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '群事件',
+			bodyTmpl : <UI.Event_Add />
+		});
+	}
+});
+EventRoute.route('/list', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '群事件',
+			bodyTmpl : <UI.Event_List />
+		});
+	}
+});

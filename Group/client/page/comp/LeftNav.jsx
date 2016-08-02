@@ -41,6 +41,20 @@ UI.LeftNav = class extends KUI.RC.CSS{
 				]
 			},
 			{
+				id : 'event',
+				title : '群事件设置',
+				children : [
+					{
+						id : 'list',
+						title : '事件列表'
+					},
+					{
+						id : 'add',
+						title : '增加事件'
+					}
+				]
+			},
+			{
 				id : 'publish',
 				title : '发布内容',
 				children : [
