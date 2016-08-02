@@ -171,15 +171,15 @@ var F = {
 	},
 
 	doMessageByWelcome : function(msg, filter, wx, callback){
-		//var rule = DB.QunAdminCommonRole.findOne({
-		//	GroupName : msg.GroupName,
-		//	type : 10000
-		//});
-		//
-		//if(rule){
-		//	var rs = F.replaceFilter(rule.result, filter);
-		//	callback(rs);
-		//}
+		let el = KG.Event.getDB().find({
+			assignGroup : msg.qunID,
+			type : 'welcome'
+		}).fetch();
+		_.each(el, (item)=>{
+
+			callback(F.replaceFilter(item.reply, filter));
+
+		});
 
 
 	},
@@ -202,6 +202,17 @@ var F = {
 
 			callback(rs);
 		}
+
+		let el = KG.Event.getDB().find({
+			assignGroup : msg.qunID,
+			type : 'text'
+		}).fetch();
+		_.each(el, (item)=>{
+			let reg = new RegExp(item.content, 'g');
+			if(reg.test(text)){
+				callback(F.replaceFilter(item.reply, filter));
+			}
+		});
 
 	},
 

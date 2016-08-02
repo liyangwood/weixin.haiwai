@@ -2,6 +2,11 @@ let Form = ND.Form,
 	FormItem = ND.Form.Item,
 	Input = ND.Input;
 
+let TipMessage = {
+	text : '{GroupUser} 可以替换为发消息的用户',
+	welcome : '{NewUser} 可以替换为新加入的用户'
+};
+
 let ELEM = class extends KUI.React.Component{
 	constructor(p){
 		super(p);
@@ -113,12 +118,8 @@ let ELEM = class extends KUI.React.Component{
 					label="回复内容"
 					>
 					<ND.Input type="textarea" {... p.reply} />
-					<p className="hw-formtip">{`{GroupUser} 可以替换为发消息的用户 `}</p>
+					<p className="hw-formtip">{TipMessage[this.props.form.getFieldValue('type')]}</p>
 				</FormItem>
-
-
-
-
 
 			</ND.Form>
 		);
