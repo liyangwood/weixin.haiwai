@@ -1,5 +1,5 @@
 import {KG} from 'meteor/kg:base';
-export const Event = {
+export default Event = {
 
 	/*
 	* text
@@ -23,8 +23,8 @@ export const Event = {
 
 	status : KG.schema.default({
 		optional : true,
-		allowedValues : ['acitve', 'inactive'],
-		defaultValue : ['active']
+		allowedValues : ['active', 'inactive'],
+		defaultValue : 'active'
 	}),
 
 	startTime : {

@@ -1,6 +1,6 @@
 import {KG} from 'meteor/kg:base';
 
-export const Content = {
+export default Content = {
 	createTime : KG.schema.createTime(),
 	updateTime : KG.schema.updateTime(),
 	type : KG.schema.default({
