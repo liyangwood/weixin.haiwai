@@ -133,3 +133,11 @@ EventRoute.route('/list', {
 		});
 	}
 });
+EventRoute.route('/edit/:id', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '群事件',
+			bodyTmpl : <UI.Event_Edit />
+		});
+	}
+});
