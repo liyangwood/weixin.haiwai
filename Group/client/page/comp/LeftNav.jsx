@@ -75,7 +75,7 @@ UI.LeftNav = class extends KUI.RC.CSS{
 
 
 	handleClick(e){
-		let path = e.keyPath.reverse().join('/');
+		let path = e.key.split('-').join('/');
 		this.setState({
 			current : e.key
 		});
@@ -89,7 +89,7 @@ UI.LeftNav = class extends KUI.RC.CSS{
 			<SubMenu key={data.id} onTitleClick={click.bind(this)} title={<h4>{data.title}</h4>}>
 				{
 					_.map(data.children, (item)=>{
-						return <Menu.Item key={item.id}>{item.title}</Menu.Item>
+						return <Menu.Item key={`${data.id}-${item.id}`}>{item.title}</Menu.Item>
 					})
 				}
 			</SubMenu>

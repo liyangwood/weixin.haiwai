@@ -56,7 +56,10 @@ UI.Qun_MessageList = class extends KUI.Page{
 			},
 			{
 				title : 'Content',
-				dataIndex : 'Content'
+				dataIndex : 'Content',
+				render(t){
+					return <p className="max-500">{t}</p>;
+				}
 			},
 			{
 				title : 'Time',
