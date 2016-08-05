@@ -107,8 +107,8 @@ UI.CM.Filter = class extends KUI.RC.CSS{
 
 				<ND.Row>
 					<ND.Col span={16} offset={2}>
-						<ND.Button onClick={this.search.bind(this)} type="primary">搜索</ND.Button>
-						<ND.Button onClick={this.clear.bind(this)} style={{marginLeft:'20px'}} type="default">清除条件</ND.Button>
+						<ND.Button onClick={this._search.bind(this)} type="primary">搜索</ND.Button>
+						<ND.Button onClick={this._clear.bind(this)} style={{marginLeft:'20px'}} type="default">清除条件</ND.Button>
 					</ND.Col>
 				</ND.Row>
 
@@ -123,12 +123,12 @@ UI.CM.Filter = class extends KUI.RC.CSS{
 		return d;
 	}
 
-	search(){
+	_search(){
 		let d = this.getValue();
 		this.props.callback && this.props.callback(d);
 	}
 
-	clear(){
+	_clear(){
 		this.refs.form.resetFields();
 	}
 };

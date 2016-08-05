@@ -1,5 +1,19 @@
+let FilterConfig = {
+	qun : {
+		label : '微信群'
+	},
+	text1 : {
+		label : '机器人'
+	}
+};
 
 UI.Qun_List = class extends KUI.Page{
+	constructor(p){
+		super(p);
+		this.state = {
+			query : {}
+		};
+	}
 
 	getMeteorData(){
 		let x = Meteor.subscribe(KG.config.Qun);
@@ -14,7 +28,7 @@ UI.Qun_List = class extends KUI.Page{
 			return util.renderLoading();
 		}
 
-		let list = KG.Qun.getDB().find({}, {
+		let list = KG.Qun.getDB().find(this.state.query, {
 			sort : {
 				createTime : -1
 			}
@@ -26,10 +40,23 @@ UI.Qun_List = class extends KUI.Page{
 			<div className="m-box">
 				<h3>微信群列表</h3>
 				<div className="line"></div>
+				<UI.CM.Filter ref="filter" config={FilterConfig} callback={this.search.bind(this)} />
+				<hr/>
 				{this.renderTable(list)}
 			</div>
 		);
 
+	}
+	search(data){
+		let query = {};
+		if(data.qun){
+			query._id = data.qun;
+		}
+		if(data.text1){
+			query.rebot = new RegExp(data.text1, 'g');
+		}
+
+		this.setState({query, query});
 	}
 
 	renderTable(list){
