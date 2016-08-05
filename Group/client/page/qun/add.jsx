@@ -7,11 +7,11 @@ UI.Comp_Qun_Add = class extends KUI.RC.CSS{
 	render(){
 		let p = {
 			name : {
-				placeholder : 'Name',
+				placeholder : '群名称',
 				ref : 'name'
 			},
 			rebot : {
-				placeholder : 'Rebot',
+				placeholder : '机器人名称',
 				ref : 'rebot'
 			}
 		};

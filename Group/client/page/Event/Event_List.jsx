@@ -53,7 +53,10 @@ UI.Event_List = class extends KUI.Page{
 			},
 			{
 				title : '回复',
-				dataIndex : 'reply'
+				dataIndex : 'reply',
+				render(t){
+					return <p className="max-500">{t}</p>;
+				}
 			},
 			{
 				title: '发布到的群',
