@@ -14,6 +14,7 @@ Package.onUse(function(api) {
 		"aldeed:simple-schema",
 		"aldeed:collection2",
 
+		'meteorhacks:aggregate@=1.3.0',
 		"kadira:flow-router"
 	];
 	api.use(packages, ["client","server"]);

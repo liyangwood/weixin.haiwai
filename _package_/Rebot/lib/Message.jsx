@@ -214,6 +214,41 @@ var F = {
 			}
 		});
 
+		//统计信息
+		if('积分'===text){
+			callback(this.getJiFenResult(msg.qunID));
+		}
+
+	},
+
+	getJiFenResult : function(qunID){
+		let pipe = [
+			{
+				'$match' : {
+					qunID : qunID
+				}
+			},
+			{
+				'$group' : {
+					_id : '$UserObject.NickName',
+					count: { $sum: 1 }
+				}
+			},
+			{
+				'$sort' : {
+					count : -1
+				}
+			}
+		];
+		let rs = KG.GroupMessage.getDB().aggregate(pipe);
+		console.log(rs);
+		let h = '';
+		_.each(rs, (item)=>{
+			h += item._id+' ('+item.count+')\n';
+		});
+
+		return h;
+
 	},
 
 	replaceFilter : function(str, filter){

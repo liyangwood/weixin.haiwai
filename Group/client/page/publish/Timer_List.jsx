@@ -25,12 +25,10 @@ UI.Publish_Timer_List = class extends KUI.Page{
 		}
 
 		let list = KG.Content.getDB().find({
-			time : {
-				'$gt' : new Date()
-			}
+
 		}, {
 			sort : {
-				time : 1
+				time : -1
 			}
 		}).fetch();
 
@@ -50,12 +48,6 @@ UI.Publish_Timer_List = class extends KUI.Page{
 	renderTable(list){
 		let self = this;
 		let titleArray = [
-			{
-				title : 'ID',
-				render(t, doc){
-					return <a href={`/publish/timer/edit/${doc._id}`}>{doc._id}</a>
-				}
-			},
 			{
 				title : '类型',
 				dataIndex : 'type'
@@ -82,13 +74,18 @@ UI.Publish_Timer_List = class extends KUI.Page{
 			},
 			{
 				title : '操作',
-				className : 'hw-center',
+				className : 'flex-center',
 				render(t, doc){
 					let del = ()=>{
 						self.delete(doc._id);
 					};
 
-					return <ND.Button onClick={del}><ND.Icon type="cross" /></ND.Button>;
+					return (
+						<div style={util.style.TD}>
+							<ND.Tooltip title="编辑"><a href={`/publish/timer/edit/${doc._id}`}><ND.Icon type="edit" /></a></ND.Tooltip>
+							{<ND.Tooltip title="删除"><a style={util.style.ML_12} onClick={del}><ND.Icon type="cross" /></a></ND.Tooltip>}
+						</div>
+					);
 				}
 			}
 		];

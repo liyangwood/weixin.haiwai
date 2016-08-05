@@ -39,6 +39,8 @@ kg:group@1.0.0
 kg:kui@1.0.0
 logging@1.0.13_1
 meteor@1.1.15_1
+meteorhacks:aggregate@1.3.0
+meteorhacks:collection-utils@1.2.0
 minifier-css@1.1.12_1
 minifier-js@1.1.12_1
 minimongo@1.0.17
@@ -46,6 +48,7 @@ modules@0.6.4
 modules-runtime@0.6.4_1
 mongo@1.1.9_1
 mongo-id@1.0.5
+mongo-livedata@1.0.12
 npm-mongo@1.4.44_1
 observe-sequence@1.0.12
 ordered-dict@1.0.8

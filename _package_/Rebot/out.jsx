@@ -6,6 +6,7 @@ import Message from './lib/Message.jsx';
 
 Meteor.startup(()=>{
 
+
 });
 
 export {

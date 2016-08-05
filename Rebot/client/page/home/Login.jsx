@@ -185,7 +185,7 @@ UI.Home_Login = class extends KUI.RC.CSS{
 		return (
 			<div>
 				<p>机器人 : {user.NickName}</p>
-				<p>状态  : {this.C.json.connect ? '连接中' : '已断开'}</p>
+				<p>状态  : {this.C.json.connect ? '运行中' : '已断开'}</p>
 			</div>
 		);
 	}
