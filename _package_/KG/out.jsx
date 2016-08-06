@@ -1,8 +1,13 @@
 
 import KG from './base.jsx';
-import Meteor from 'meteor/meteor';
 import _ from 'underscore';
 import moment from 'moment';
+
+if(Meteor.isServer){
+
+	KG.SyncedCron = require('./lib/Synced-cron.jsx');
+}
+
 
 
 export {

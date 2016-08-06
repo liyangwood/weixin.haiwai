@@ -8,7 +8,8 @@ if(Meteor.isServer) {
 //init
 	wx.setting({
 		processMessage: Message.processMessage,
-		processFriend: Message.processFriend
+		processFriend: Message.processFriend,
+		initCronJob : Message.initCronJob
 	});
 
 

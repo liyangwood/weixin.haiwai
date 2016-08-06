@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "later": "^1.2.0",
     "moment": "^2.14.1",
     "underscore": "^1.8.3"
   }

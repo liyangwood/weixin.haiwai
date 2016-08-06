@@ -331,7 +331,7 @@ let Base = class{
 
 		let list = this.defineCronJob();
 		_.each(list, function(item){
-			//KG.SyncedCron.add(item);
+			KG.SyncedCron.add(item);
 		});
 	}
 

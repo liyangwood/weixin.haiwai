@@ -318,7 +318,108 @@ var F = {
 		_.each(list, function(item){
 
 		});
+	},
+
+	initCronJob(wx){
+		console.log('----- init cron job -----');
+		//cron job
+		let job = {
+			name : 'Make timer publish',
+			schedule: function (parser) {
+				return parser.text('every 1 min');
+			},
+			job : function(){
+
+				if(!wx.config.isConnect) return false;
+
+				let now = new Date();
+				let after = moment(now).add(1, 'minutes').toDate();
+				let pubList = KG.Content.getDB().find({
+					publishType : 'timer'
+					//time : {
+					//	'$lt' : now,
+					//	'$gt' : ater
+					//}
+				});
+
+				if(pubList.count() > 0){
+					_.each(pubList.fetch(), (item)=>{
+
+						_.each(item.assignGroup, (l)=>{
+							F.sendPublishTimerContent(l, item, wx);
+						});
+
+
+
+					});
+				}
+
+			}
+		};
+
+		//KG.SyncedCron.add(job);
+
+		job = {
+			name : 'keep connect',
+			schedule: function (parser) {
+				return parser.text('every 10 min');
+			},
+			job : function(){
+
+				if(!wx.config.isConnect) return false;
+
+				let cu = wx.getCurrentUser();
+				let qun = KG.Qun.getDB().findOne({name : '测试机器人群1'});
+				if(!qun) return false;
+
+				let groupList = wx.getGroupList();
+
+				let one = _.find(groupList, function(d){
+					return d.NickName === qun.name;
+				});
+
+				if(one){
+					//console.log('[send Timer Content]', item.content, one.UserName, cu.UserName);
+					wx.sendMessage({
+						type : 1,
+						FromUserName : cu.UserName,
+						ToUserName : one.UserName,
+						Content : moment(new Date()).format(KG.const.dateAllFormat)
+					}, function(err, rs){
+						console.log(err, rs);
+					});
+				}
+
+			}
+		};
+		KG.SyncedCron.add(job);
+	},
+
+	sendPublishTimerContent(qunID, item, wx){
+		let cu = wx.getCurrentUser();
+		let qun = KG.Qun.getDB().findOne({_id : qunID});
+		if(qun.rebot !== cu.NickName) return false;
+
+		let groupList = wx.getGroupList();
+
+		let one = _.find(groupList, function(d){
+			return d.NickName === qun.name;
+		});
+
+		if(one && item.content){
+			//console.log('[send Timer Content]', item.content, one.UserName, cu.UserName);
+			wx.sendMessage({
+				type : 1,
+				FromUserName : cu.UserName,
+				ToUserName : one.UserName,
+				Content : item.content
+			}, function(err, rs){
+				console.log(err, rs);
+			});
+		}
 	}
+
+
 };
 
 

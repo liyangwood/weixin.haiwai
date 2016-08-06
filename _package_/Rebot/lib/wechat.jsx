@@ -6,7 +6,7 @@
  * */
 
 
-import {KG, _} from 'meteor/kg:base';
+import {KG, _, moment} from 'meteor/kg:base';
 
 let WECHAT = {};
 
@@ -473,7 +473,7 @@ if(Meteor.isServer){
 					headers : F.getRequestHeader(),
 					json : true
 				}), function(err, res, body){
-					console.log('----friendlist--->', body);
+					//console.log('----friendlist--->', body);
 
 					_.each(body.MemberList, function(item){
 						F.doContracListItem(item);
@@ -570,8 +570,12 @@ if(Meteor.isServer){
 					processMessage : setting.processMessage,
 
 					// 处理好友部分
-					processFriend : setting.processFriend
+					processFriend : setting.processFriend,
+					initCronJob : setting.initCronJob
 				}, setting||{});
+
+
+				wx.role.initCronJob(wx);
 
 			},
 

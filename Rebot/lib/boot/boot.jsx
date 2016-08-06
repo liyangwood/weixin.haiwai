@@ -18,5 +18,10 @@ if(Meteor.isClient){
 	window.React = KUI.React;
 	window.ND = KUI.ANTD;
 }
+else{
+	if(!KG.SyncedCron.running){
+		KG.SyncedCron.start();
+	}
+}
 
 
