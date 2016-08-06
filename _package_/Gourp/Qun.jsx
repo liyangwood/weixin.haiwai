@@ -8,3 +8,11 @@ KG.define(config.Qun, class extends Base{
 		return Qun;
 	}
 });
+
+
+KG.define(config.TmpQun, class extends Base{
+	defineDBSchema(){
+		return Qun;
+	}
+
+});

@@ -219,6 +219,14 @@ if(Meteor.isServer){
 					wx.config.skey = body['SKey'];
 					F.setSyncKey(body.SyncKey);
 
+					//set User into Session
+					curentUser = body.User;
+
+					//clean tmp-qun db
+					KG.TmpQun.getDB().remove({
+						rebot : curentUser.NickName
+					});
+
 					//处理微信的好友list,这里只是部分
 					var list = body.ContactList;
 
@@ -227,9 +235,6 @@ if(Meteor.isServer){
 
 					});
 
-
-					//set User into Session
-					curentUser = body.User;
 
 					F.beforeLoopCheck();
 					//F.loopCheckNewChats();
@@ -274,6 +279,8 @@ if(Meteor.isServer){
 				//	item.headUrl = path;
 				//});
 
+				if(!item.NickName) return;
+
 				//update qun info
 				let c = KG.Qun.getDB().find({
 					name : item.NickName,
@@ -288,6 +295,19 @@ if(Meteor.isServer){
 							number : item.MemberCount
 						}
 					}});
+				}
+				else{
+					//console.log(item.NickName, curentUser.NickName);
+					KG.TmpQun.getDB().update({
+						name : item.NickName,
+						rebot : curentUser.NickName
+					}, {$set : {
+						name : item.NickName,
+						rebot : curentUser.NickName,
+						info : {
+							number : item.MemberCount
+						}
+					}}, {upsert : true});
 				}
 			},
 

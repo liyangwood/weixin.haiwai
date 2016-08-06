@@ -23,6 +23,14 @@ QunRoute.route('/list', {
 		});
 	}
 });
+QunRoute.route('/tmp/list', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '群设置',
+			bodyTmpl : <UI.Qun_Tmp_List />
+		});
+	}
+});
 QunRoute.route('/add', {
 	action(p){
 		App.routeHandler(p, {

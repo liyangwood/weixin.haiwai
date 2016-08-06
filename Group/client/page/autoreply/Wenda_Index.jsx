@@ -47,7 +47,7 @@ let C_Table = class extends UI.StatePage{
 
 			{
 				title : '操作',
-				className : 'hw-center',
+				className : 'flex-center',
 				render(t, doc){
 					let del = ()=>{
 						alert(1)

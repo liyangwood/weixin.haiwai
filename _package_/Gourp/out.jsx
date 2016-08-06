@@ -12,6 +12,7 @@ KG.config = config;
 
 Meteor.startup(()=>{
 	KG.Qun = KG.create(config.Qun);
+	KG.TmpQun = KG.create(config.TmpQun);
 	KG.Wenda = KG.create(config.Wenda);
 	KG.Content = KG.create(config.Content);
 	KG.Event = KG.create(config.Event);
