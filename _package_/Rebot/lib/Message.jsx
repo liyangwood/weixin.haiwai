@@ -335,11 +335,11 @@ var F = {
 				let now = new Date();
 				let after = moment(now).add(1, 'minutes').toDate();
 				let pubList = KG.Content.getDB().find({
-					publishType : 'timer'
-					//time : {
-					//	'$lt' : now,
-					//	'$gt' : ater
-					//}
+					publishType : 'timer',
+					time : {
+						'$lt' : now,
+						'$gt' : after
+					}
 				});
 
 				if(pubList.count() > 0){
@@ -357,7 +357,7 @@ var F = {
 			}
 		};
 
-		//KG.SyncedCron.add(job);
+		KG.SyncedCron.add(job);
 
 		job = {
 			name : 'keep connect',
@@ -369,6 +369,10 @@ var F = {
 				if(!wx.config.isConnect) return false;
 
 				let cu = wx.getCurrentUser();
+
+				//只是针对李杰克的小号测试
+				if(cu.NickName !== '李杰克') return false;
+
 				let qun = KG.Qun.getDB().findOne({name : '测试机器人群1'});
 				if(!qun) return false;
 
