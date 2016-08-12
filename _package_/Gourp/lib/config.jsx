@@ -6,5 +6,7 @@ export default {
 	Content : 'HW-Content',
 	Event : 'HW-Event',
 
-	GroupMessage : 'HW-GroupMessage'
+	GroupMessage : 'HW-GroupMessage',
+
+	ZhiBoGroup : 'HW-ZhiBoGroup'
 };
