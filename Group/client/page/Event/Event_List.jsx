@@ -70,7 +70,7 @@ UI.Event_List = class extends KUI.Page{
 			},
 			{
 				title: '操作',
-				className: 'flex-center',
+				className: 'hw-center',
 				render(t, doc){
 					let del = ()=> {
 						self.delete(doc._id);
