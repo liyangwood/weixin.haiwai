@@ -172,17 +172,13 @@ UI.CM.ZhiBoGroup_Add = class extends KUI.Page{
 
 	setValue(d){
 		console.log(d);
-		//this.refs.form.setFieldsValue({
-		//	assignGroup : d.assignGroup,
-		//	type : d.type,
-		//	reply : d.reply
-		//});
-		//
-		//if(d.type === 'text'){
-		//	this.refs.form.setFieldsValue({
-		//		content : d.content || '',
-		//	});
-		//}
+		this.refs.form.setFieldsValue({
+			qunID : d.qunID,
+			description : d.description,
+			password : d.password,
+			start_date : d.startTime,
+			end_date : d.endTime
+		});
 
 	}
 
