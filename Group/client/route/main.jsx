@@ -68,6 +68,14 @@ ZhiBoRoute.route('/add', {
 		});
 	}
 });
+ZhiBoRoute.route('/list', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '群直播',
+			bodyTmpl : <UI.ZhiBoGroup_List />
+		});
+	}
+});
 
 // autoreply
 let AutoReplyRoute = FlowRouter.group({
