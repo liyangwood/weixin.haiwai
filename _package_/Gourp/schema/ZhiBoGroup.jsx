@@ -8,7 +8,8 @@ export const ZhiBoGroup = {
 		type : Date
 	},
 	description : KG.schema.default({
-		optional : true
+		optional : true,
+		defaultValue : ''
 	}),
 
 	info : {

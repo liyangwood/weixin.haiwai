@@ -31,6 +31,20 @@ UI.LeftNav = class extends KUI.RC.CSS{
 				]
 			},
 			{
+				id : 'zhibo',
+				title : '群直播',
+				children : [
+					{
+						id : 'list',
+						title : '直播列表'
+					},
+					{
+						id : 'add',
+						title : '增加直播'
+					}
+				]
+			},
+			{
 				id : 'autoreply',
 				title : '问答设置',
 				children : [

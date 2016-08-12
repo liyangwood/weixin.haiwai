@@ -56,6 +56,19 @@ QunRoute.route('/message/list', {
 	}
 });
 
+// zhibo
+let ZhiBoRoute = FlowRouter.group({
+	prefix: '/zhibo'
+});
+ZhiBoRoute.route('/add', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '群直播',
+			bodyTmpl : <UI.ZhiBoGroup_Add />
+		});
+	}
+});
+
 // autoreply
 let AutoReplyRoute = FlowRouter.group({
 	prefix: '/autoreply',
