@@ -77,7 +77,7 @@ UI.ZhiBoGroup_List = class extends KUI.Page{
 						<div style={util.style.TD}>
 							<ND.Tooltip title="编辑"><a href={`/zhibo/edit/${doc._id}`}><ND.Icon type="edit" /></a></ND.Tooltip>
 							{<ND.Tooltip title="删除"><a style={util.style.ML_12} onClick={del}><ND.Icon type="cross" /></a></ND.Tooltip>}
-							{<ND.Tooltip title="进入直播间"><a style={util.style.ML_12}><ND.Icon type="forward" /></a></ND.Tooltip>}
+							{<ND.Tooltip title="进入直播间"><a href={`/zhibo/room/${doc._id}`} style={util.style.ML_12}><ND.Icon type="forward" /></a></ND.Tooltip>}
 						</div>
 					);
 				}

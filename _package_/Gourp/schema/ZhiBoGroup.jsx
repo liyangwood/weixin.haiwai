@@ -1,5 +1,8 @@
 import {KG} from 'meteor/kg:base';
 export const ZhiBoGroup = {
+	name : KG.schema.default({
+		optional : true
+	}),
 	qunID : KG.schema.default(),
 	startTime : {
 		type : Date

@@ -85,6 +85,15 @@ ZhiBoRoute.route('/list', {
 	}
 });
 
+ZhiBoRoute.route('/room/:id', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '群直播',
+			bodyTmpl : <UI.ZhiBo_Room />
+		});
+	}
+});
+
 // autoreply
 let AutoReplyRoute = FlowRouter.group({
 	prefix: '/autoreply',
