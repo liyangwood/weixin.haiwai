@@ -15,7 +15,8 @@ Package.onUse(function(api) {
 		"aldeed:collection2",
 
 		'meteorhacks:aggregate@=1.3.0',
-		"kadira:flow-router"
+		"kadira:flow-router",
+		'vsivsi:file-collection'
 	];
 	api.use(packages, ["client","server"]);
 	api.imply(packages, ["client","server"]);

@@ -6,31 +6,6 @@
 
 import {KG, _} from 'meteor/kg:base';
 
-//文字逻辑规则定义
-var TextRuleJson = [
-	{
-		key : '群规',
-		result : '这是测试的群规内容'
-	},
-	{
-		key : '靠',
-		result : '@{GroupUser}, 群内禁止粗口，警告一次'
-	},
-	{
-		key : '我要直播',
-		result : '地址：http://b094c2cb.ngrok.io/qun/add'
-	}
-];
-
-var CommonRule = [
-	{
-		key : '今日新闻',
-		result : function(callback){
-			callback(1234);
-		}
-	}
-
-];
 
 
 var F = {
@@ -80,20 +55,20 @@ var F = {
 		return rs;
 	},
 
-	saveToDB : function(type, data){
-		if(!type) return;
-
-		var db;
-		if(type === 'Group'){
-			db = GroupMessage;
-		}
-
-		var insert = (function(data){
-			db.insert(data);
-		});
-
-		insert(data);
-	},
+	//saveToDB : function(type, data){
+	//	if(!type) return;
+	//
+	//	var db;
+	//	if(type === 'Group'){
+	//		db = GroupMessage;
+	//	}
+	//
+	//	var insert = (function(data){
+	//		db.insert(data);
+	//	});
+	//
+	//	insert(data);
+	//},
 
 	/*
 	 * 存数据到群直播的db中
@@ -131,7 +106,6 @@ var F = {
 			msg.Content = text;
 			msg.UserObject = filter.GroupUserObject;
 
-			//F.saveToDB(msg, wx);
 
 			msg = F.saveToQunDB(msg, wx);
 
@@ -185,7 +159,18 @@ var F = {
 	},
 
 	doMessageByImage : function(msg, wx, callback){
-
+		//save image
+		wx.getMessageImage(msg.MsgId, function(buffer){
+			console.log(buffer);
+			KG.FS.Chat.insert({
+				_id : msg.MsgId,
+				filename : msg.MsgId+'.png',
+				contentType : 'image/png',
+				metadata : buffer
+			}, function(err, uid){
+				console.log(err, uid);
+			});
+		});
 	},
 
 	doMessageByText : function(msg, filter, callback){

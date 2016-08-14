@@ -212,7 +212,14 @@ util.ND = {
 };
 
 util.weixin = {
+	replaceMessageByType : function(item){
+		var html = _.unescape(item.Content);
+		if(item.MsgType === 49){
+			return <a target="_blank" href={_.unescape(item.Url)}>{item.FileName}</a>
+		}
 
+		return html
+	}
 };
 
 

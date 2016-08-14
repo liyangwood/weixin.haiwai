@@ -65,12 +65,7 @@ UI.ZhiBo_Room = class extends KUI.Page{
 	}
 
 	replaceMessageContent(item){
-		var html = _.unescape(item.Content);
-		if(item.MsgType === 49){
-			return <a target="_blank" href={_.unescape(item.Url)}>{item.FileName}</a>
-		}
-
-		return html
+		return util.weixin.replaceMessageByType(item);
 	}
 
 	renderMessageList(list){

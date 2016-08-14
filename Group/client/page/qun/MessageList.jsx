@@ -57,8 +57,8 @@ UI.Qun_MessageList = class extends KUI.Page{
 			{
 				title : 'Content',
 				dataIndex : 'Content',
-				render(t){
-					return <p className="max-500">{t}</p>;
+				render(t, doc){
+					return <p className="max-500">{util.weixin.replaceMessageByType(doc)}</p>;
 				}
 			},
 			{

@@ -2,6 +2,7 @@
 import KG from './base.jsx';
 import _ from 'underscore';
 import moment from 'moment';
+import {FileCollection} from 'meteor/vsivsi:file-collection';
 
 if(Meteor.isServer){
 
@@ -9,10 +10,10 @@ if(Meteor.isServer){
 }
 
 
-
 export {
 	KG,
 	Meteor,
 	_,
-	moment
+	moment,
+	FileCollection
 };

@@ -97,36 +97,35 @@ if(Meteor.isServer) {
 //	});
 //
 //
-////聊天信息中的小图片
-//	Router.route('getLogImage', {
-//		where: 'server',
-//		path: '/weixin/log/image'
-//	}).get(function () {
-//		var self = this;
-//
-//		var query = self.request.query,
-//			id = query.id;
-//
-//		var path = KG.config.pwd + '/temp/weixinlogimage/' + id + '.png';
-//
-//		try {
-//			self.response.end(fs.readFileSync(path));
-//		}
-//		catch (e) {
-//
-//			wx.getMessageImage(id, function (buffer) {
-//
-//				Image.saveChatImage(id, buffer, function (err, file) {
-//					//console.log(file);
-//					Meteor.setTimeout(function () {
-//						self.response.end(fs.readFileSync(path));
-//					}, 1000);
-//				});
-//
-//			}, query.type === 'big');
-//		}
-//
-//	});
+	//聊天信息中的小图片
+	Picker.route('/wxapi/chat/image', function(p, req, res, next){
+		var self = this;
+
+		var query = self.request.query,
+			id = query.id;
+
+		KG.ImageFile.Chat.findOne({filename : id+'.png'});
+
+		//var path = KG.config.pwd + '/temp/weixinlogimage/' + id + '.png';
+		//
+		//try {
+		//	self.response.end(fs.readFileSync(path));
+		//}
+		//catch (e) {
+		//
+		//	wx.getMessageImage(id, function (buffer) {
+		//
+		//		Image.saveChatImage(id, buffer, function (err, file) {
+		//			//console.log(file);
+		//			Meteor.setTimeout(function () {
+		//				self.response.end(fs.readFileSync(path));
+		//			}, 1000);
+		//		});
+		//
+		//	}, query.type === 'big');
+		//}
+
+	});
 //
 //	Router.route('getHeadImage', {
 //		where: 'server',

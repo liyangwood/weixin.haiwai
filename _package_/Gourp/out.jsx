@@ -1,6 +1,7 @@
 import config from './lib/config.jsx';
 import {KG} from 'meteor/kg:base';
 
+import FS from './lib/FileSystem.jsx';
 import './Qun.jsx';
 import './Wenda.jsx';
 import './Content.jsx';
@@ -10,6 +11,7 @@ import './GroupMessage.jsx';
 import './ZhiBoGroup.jsx';
 
 KG.config = config;
+KG.FS = FS;
 
 Meteor.startup(()=>{
 	KG.Qun = KG.create(config.Qun);
@@ -20,4 +22,6 @@ Meteor.startup(()=>{
 
 	KG.GroupMessage = KG.create(config.GroupMessage);
 	KG.ZhiBoGroup = KG.create(config.ZhiBoGroup);
+
+	KG.FS.init();
 });
