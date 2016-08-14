@@ -211,6 +211,10 @@ util.ND = {
 	}
 };
 
+util.weixin = {
+
+};
+
 
 window.util = util;
 window._ = _;
