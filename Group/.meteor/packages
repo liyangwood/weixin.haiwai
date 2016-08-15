@@ -26,6 +26,8 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 fourseven:scss
 
 kadira:flow-router
+cfs:standard-packages
+cfs:gridfs
 
 kg:base
 kg:kui

@@ -712,13 +712,13 @@ if(Meteor.isServer){
 			getMessageImage : function(id, callback, big){
 				big = big || false;
 
-				var url = '/mmwebwx-bin/webwxgetmsgimg?MsgID='+id+'&skey='+(wx.config.skey);
+				var url = '/mmwebwx-bin/webwxgetmsgimg?&MsgID='+id+'&skey='+(wx.config.skey);
 				url = wx.config.host + url;
 
-				if(!big){
-					url += '&type=slave';
+				if(true || !big){
+					url += '&type=big';
 				}
-
+console.log(url);
 				//注意这里使用npmRequest是因为Meteor.http没有提供encoding参数的实现
 				npmRequest(F.setOption({
 					url : url,
@@ -726,9 +726,12 @@ if(Meteor.isServer){
 					encoding : null,
 					headers : {
 						'Cookie' : wx.config.cookie,
+						'Upgrade-Insecure-Requests' : 1,
+						'Accept-Encoding' : 'gzip, deflate, sdch, br',
 						'User-Agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'
 					}
 				}), function(err, res, body){
+					err && console.log(err);
 					body && callback(body);
 				});
 			},

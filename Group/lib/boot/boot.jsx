@@ -14,3 +14,8 @@ if(Meteor.isClient){
 }
 
 
+Meteor.startup(function(){
+	if(Meteor.isServer){
+		KG.FS.Image.initRoute();
+	}
+});

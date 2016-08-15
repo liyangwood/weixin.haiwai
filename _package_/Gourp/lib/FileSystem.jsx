@@ -1,36 +1,67 @@
-import {KG, FileCollection} from 'meteor/kg:base';
+import {KG, FS} from 'meteor/kg:base';
 
 
-let FS = {};
+var createThumb = function(fileObj, readStream, writeStream) {
+	//gm(readStream, fileObj.name()).resize('256', '256').stream().pipe(writeStream);
+	//console.log(arguments);
+};
 
-FS.init = function(){
-	FS.Chat = new FileCollection('HW-ImageFile-Chat', {
-		http: []
+var getBase64Data = function(doc, callback) {
+	var buffer = new Buffer(0);
+	// callback has the form function (err, res) {}
+	var readStream = doc.createReadStream('images');
+
+	readStream.on('data', function(chunk) {
+		buffer = Buffer.concat([buffer, chunk]);
 	});
-	console.log(FS.Chat);
+	readStream.on('error', function(err) {
+		callback(err, null);
+	});
+	readStream.on('end', function() {
+		//console.log(123);
+		// done
+		callback(null, buffer.toString('base64'));
+	});
+};
+var getBase64DataSync = Meteor.wrapAsync(getBase64Data);
+
+FS._init = function(){
+
+
+
+	FS.Chat = new FS.Collection('HW-ImageFile-Chat', {
+		stores: [
+			new FS.Store.GridFS("images", {
+
+			})
+		]
+	});
+
 
 	FS.Chat.allow({
 		// The creator of a file owns it. UserId may be null.
-		insert: function (userId, file) {
+		insert: function(){
 			return true;
 		},
-		// Only owners can remove a file
-		remove: function (userId, file) {
+		update : function(){
 			return true;
 		},
-		// Only owners can retrieve a file via HTTP GET
-		read: function (userId, file) {
-			return true;
-		},
-		// This rule secures the HTTP REST interfaces' PUT/POST
-		write: function (userId, file, fields) {
+		download : function(){
 			return true;
 		}
 	});
 
+	if(Meteor.isServer){
+		Meteor.publish("images", function(){
+			return FS.Chat.find();
+		});
+	}
+
+
 	console.log('FS init success');
 };
 
+let Image = {};
 
 ////聊天信息中的图片
 //Image.Chat = new FS.Collection('image_chat', {
@@ -68,25 +99,25 @@ FS.init = function(){
 //});
 //
 //
-//Image.saveChatImage = function(name, buffer, callback){
-//
-//	var newFile = new FS.File();
-//	newFile.attachData(buffer, {type: 'image/png'}, (function(error){
-//		if(error) throw error;
-//		if(name.indexOf('.png')>0){
-//			newFile.name(name);
-//		}
-//		else{
-//			newFile.name(name+'.png');
-//		}
-//
-//
-//		Image.Chat.insert(newFile, function(err, file){
-//			callback(err, file);
-//		});
-//
-//	}));
-//};
+Image.saveChatImage = function(name, buffer, callback){
+
+	var newFile = new FS.File();
+	newFile.attachData(buffer, {type: 'image/png'}, (function(error){
+		if(error) throw error;
+		if(name.indexOf('.png')>0){
+			newFile.name(name);
+		}
+		else{
+			newFile.name(name+'.png');
+		}
+
+
+		FS.Chat.insert(newFile, function(err, file){
+			callback(err, file);
+		});
+
+	}));
+};
 //
 //Image.saveHeadImage = function(name, buffer, callback){
 //	var newFile = new FS.File();
@@ -125,4 +156,75 @@ FS.init = function(){
 //	}));
 //};
 
+
+Image.initRoute = function(){
+	KG.Picker.route('/res/image/chat', function(p, req, res, next){
+
+		let id = p.query.id;
+
+
+		let one = FS.Chat.findOne({
+			'original.name' : id+'.png'
+		});
+
+		if(one){
+			console.log(id+'.png');
+			//console.log(one.getFileRecord().isImage());
+
+			let file = one.getFileRecord();
+			console.log(file.url())
+
+			let stream = file.createReadStream('images');
+			res.writeHead(200, {
+				'Content-Type': 'image/jpeg',
+				'Content-Length': file.size()
+			});
+			stream.pipe(res);
+
+			//let data = getBase64DataSync(file);
+			////console.log(data);
+			////res.end(data);
+			//res.writeHead(200, {'Content-Type': 'image/png' });
+			//res.end(data);
+//console.log(file);
+//			getBase64Data(file, (err, buffer)=>{
+//				console.log(err, buffer);
+//				res.end(buffer);
+//			})
+
+			//res.end(data);
+		}
+
+
+
+		//one.attachData(buffer, {type: 'image/png'}, (function(error){
+		//	res.end(one.url());
+		//}));
+
+		//var path = KG.config.pwd + '/temp/weixinlogimage/' + id + '.png';
+		//
+		//try {
+		//	self.response.end(fs.readFileSync(path));
+		//}
+		//catch (e) {
+		//
+		//	wx.getMessageImage(id, function (buffer) {
+		//
+		//		Image.saveChatImage(id, buffer, function (err, file) {
+		//			//console.log(file);
+		//			Meteor.setTimeout(function () {
+		//				self.response.end(fs.readFileSync(path));
+		//			}, 1000);
+		//		});
+		//
+		//	}, query.type === 'big');
+		//}
+
+	});
+
+	console.log('FS Route init success');
+};
+
+Image.getBase64Data = getBase64Data;
+FS.Image = Image;
 export default FS;

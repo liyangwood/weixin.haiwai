@@ -29,7 +29,8 @@ kadira:flow-router
 meteorhacks:picker
 
 http
-vsivsi:file-collection
+cfs:standard-packages
+cfs:gridfs
 
 kg:base
 kg:kui

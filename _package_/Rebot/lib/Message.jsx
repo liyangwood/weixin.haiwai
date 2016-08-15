@@ -162,14 +162,22 @@ var F = {
 		//save image
 		wx.getMessageImage(msg.MsgId, function(buffer){
 			console.log(buffer);
-			KG.FS.Chat.insert({
-				_id : msg.MsgId,
-				filename : msg.MsgId+'.png',
-				contentType : 'image/png',
-				metadata : buffer
-			}, function(err, uid){
-				console.log(err, uid);
-			});
+			//KG.FS.Chat.insert({
+			//	_id : msg.MsgId.toString(),
+			//	filename : msg.MsgId+'.png',
+			//	contentType : 'image/png',
+			//	metadata : buffer
+			//}, function(err, uid){
+			//	console.log(err, uid);
+			//});
+			KG.FS.Image.saveChatImage(msg.MsgId, buffer, function(err, obj){
+
+				if(!err){
+					KG.FS.Image.getBase64Data(obj, function(){
+						console.log(arguments)
+					});
+				}
+			})
 		});
 	},
 

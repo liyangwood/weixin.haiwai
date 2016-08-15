@@ -217,6 +217,13 @@ util.weixin = {
 		if(item.MsgType === 49){
 			return <a target="_blank" href={_.unescape(item.Url)}>{item.FileName}</a>
 		}
+		else if(item.MsgType === 3){
+			let imgStyle={
+				width : '120px',
+				height : 'auto'
+			};
+			return <a target="_blank" href={`/res/image/chat?id=${item.MsgId}`}><img style={imgStyle} src={`/res/image/chat?id=${item.MsgId}`} /></a>
+		}
 
 		return html
 	}

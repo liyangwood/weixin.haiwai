@@ -11,7 +11,10 @@ import './GroupMessage.jsx';
 import './ZhiBoGroup.jsx';
 
 KG.config = config;
-KG.FS = FS;
+
+if(Meteor.isServer){
+	KG.Picker = Picker;
+}
 
 Meteor.startup(()=>{
 	KG.Qun = KG.create(config.Qun);
@@ -23,5 +26,6 @@ Meteor.startup(()=>{
 	KG.GroupMessage = KG.create(config.GroupMessage);
 	KG.ZhiBoGroup = KG.create(config.ZhiBoGroup);
 
-	KG.FS.init();
+	FS._init();
+	KG.FS = FS;
 });

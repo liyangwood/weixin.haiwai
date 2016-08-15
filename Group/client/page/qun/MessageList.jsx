@@ -15,6 +15,8 @@ UI.Qun_MessageList = class extends KUI.Page{
 			qunID : qunID
 		}});
 
+		let xx = Meteor.subscribe('images');
+
 		return {
 			ready : x.ready() && x1.ready(),
 			qunID : qunID

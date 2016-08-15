@@ -16,7 +16,7 @@ Package.onUse(function(api) {
 
 		'meteorhacks:aggregate@=1.3.0',
 		"kadira:flow-router",
-		'vsivsi:file-collection'
+		'meteorhacks:picker'
 	];
 	api.use(packages, ["client","server"]);
 	api.imply(packages, ["client","server"]);
