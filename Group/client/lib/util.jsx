@@ -222,7 +222,10 @@ util.weixin = {
 				width : '120px',
 				height : 'auto'
 			};
-			return <a target="_blank" href={`/res/image/chat?id=${item.MsgId}`}><img style={imgStyle} src={`/res/image/chat?id=${item.MsgId}`} /></a>
+			return <a target="_blank" href={`/res/chat/image?id=${item.MsgId}`}><img style={imgStyle} src={`/res/chat/image?id=${item.MsgId}`} /></a>
+		}
+		else if(item.MsgType === 34){
+			return <a target="_blank" href={`/res/chat/voice?id=${item.MsgId}`}>voice</a>
 		}
 
 		return html

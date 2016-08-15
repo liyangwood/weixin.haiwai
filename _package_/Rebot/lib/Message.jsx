@@ -130,6 +130,7 @@ var F = {
 
 			case 34:
 				//语音
+				F.doMessageByVoiceMessage(msg, wx, callback);
 				break;
 
 			case 43:
@@ -142,6 +143,20 @@ var F = {
 
 		}
 
+	},
+
+	doMessageByVoiceMessage : function(msg, wx, callback){
+		//save image
+		wx.getMessageVoice(msg.MsgId, function(buffer){
+			console.log(buffer);
+
+			KG.FS.Image.saveChatVoice(msg.MsgId, buffer, function(err, obj){
+
+				if(!err){
+
+				}
+			})
+		});
 	},
 
 	doMessageByWelcome : function(msg, filter, wx, callback){
@@ -162,20 +177,10 @@ var F = {
 		//save image
 		wx.getMessageImage(msg.MsgId, function(buffer){
 			console.log(buffer);
-			//KG.FS.Chat.insert({
-			//	_id : msg.MsgId.toString(),
-			//	filename : msg.MsgId+'.png',
-			//	contentType : 'image/png',
-			//	metadata : buffer
-			//}, function(err, uid){
-			//	console.log(err, uid);
-			//});
 			KG.FS.Image.saveChatImage(msg.MsgId, buffer, function(err, obj){
 
 				if(!err){
-					KG.FS.Image.getBase64Data(obj, function(){
-						console.log(arguments)
-					});
+
 				}
 			})
 		});
