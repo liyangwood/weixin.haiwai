@@ -86,7 +86,7 @@ UI.Event_List = class extends KUI.Page{
 			}
 		];
 
-		return <ND.Table columns={titleArray} bordered size="middle" dataSource={list} pagination={false}/>
+		return <ND.Table columns={titleArray} bordered size="middle" dataSource={list} pagination={true}/>
 	}
 
 	delete(id){

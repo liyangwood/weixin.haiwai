@@ -54,7 +54,10 @@ UI.Publish_Timer_List = class extends KUI.Page{
 			},
 			{
 				title : '内容',
-				dataIndex : 'content'
+				dataIndex : 'content',
+				render(t){
+					return <p className="max-500">{t}</p>;
+				}
 			},
 			{
 				title : '是否循环',
@@ -83,7 +86,7 @@ UI.Publish_Timer_List = class extends KUI.Page{
 			},
 			{
 				title : '操作',
-				className : 'flex-center',
+				className : 'hw-center',
 				render(t, doc){
 					let del = ()=>{
 						self.delete(doc._id);

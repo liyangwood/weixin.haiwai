@@ -99,8 +99,8 @@ let ELEM = class extends KUI.React.Component{
 					label="事件类型">
 
 					<ND.Radio.Group {... p.type} onChange={this.changeType.bind(this)}>
-						<ND.Radio value="text">聊天</ND.Radio>
-						<ND.Radio value="welcome">加群</ND.Radio>
+						<ND.Radio.Button value="text">聊天</ND.Radio.Button>
+						<ND.Radio.Button value="welcome">加群</ND.Radio.Button>
 
 					</ND.Radio.Group>
 
