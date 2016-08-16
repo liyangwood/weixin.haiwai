@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "form-data": "^1.0.0-rc4",
     "meteor-node-stubs": "^0.2.3",
     "request": "^2.74.0",
     "xml2js": "^0.4.17"

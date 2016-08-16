@@ -14,6 +14,10 @@ Package.onUse(function(api) {
 		"aldeed:simple-schema",
 		"aldeed:collection2",
 
+		'cfs:standard-packages',
+		'cfs:gridfs',
+		'cfs:data-man',
+
 		'meteorhacks:aggregate@=1.3.0',
 		"kadira:flow-router",
 		'meteorhacks:picker'

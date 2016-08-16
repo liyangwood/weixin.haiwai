@@ -18,8 +18,7 @@ Package.onUse(function (api) {
 	//api.use("modules");
 
 	var packages = [
-		'cfs:standard-packages',
-		'cfs:gridfs',
+
 		'kg:base'
 	];
 	api.use(packages, ["client","server"]);

@@ -335,8 +335,8 @@ var F = {
 				let pubList = KG.Content.getDB().find({
 					publishType : 'timer',
 					time : {
-						'$lt' : now,
-						'$gt' : after
+						'$lte' : after,
+						'$gt' : now
 					}
 				});
 

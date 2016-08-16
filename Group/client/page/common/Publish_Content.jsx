@@ -29,16 +29,11 @@ let ELEM = class extends KUI.React.Component{
 					{
 						required: true,
 						type: 'date',
-						message: '请选择日期'
+						message: '请选择发布时间'
 					}
 				]
 			}),
-			time : get('time', {
-				getValueFromEvent: (value, timeString) => timeString,
-				rules: [
-					{ required: true, message: '请选择一个时间' }
-				]
-			}),
+
 			type : get('type', {
 				rules: [
 					{ required: true, message: '请选择消息类型' }
@@ -65,25 +60,23 @@ let ELEM = class extends KUI.React.Component{
 			wrapperCol: { span: 16 }
 		};
 
+		let local = {
+			timezoneOffset : moment(new Date()).utcOffset()
+		};
+
 		return (
 			<Form horizontal form={this.props.form}>
 				<FormItem
 					{...formItemLayout}
 					label="发布内容"
 					>
-					<ND.Input type="textarea" {... p.content} />
+					<ND.Input style={{height:'80px'}} type="textarea" {... p.content} />
 				</FormItem>
 				<FormItem
 					{...formItemLayout}
 					label="发布时间"
 					>
-					<ND.DatePicker {...p.date} />
-				</FormItem>
-				<FormItem
-					{...formItemLayout}
-					wrapperCol={{offset:4}}
-					>
-					<ND.TimePicker {... p.time} />
+					<ND.DatePicker locale={{...local}} format="MM/dd/yyyy HH:mm:ss" showTime={true} {...p.date} />
 				</FormItem>
 
 				<FormItem
@@ -153,8 +146,8 @@ UI.CM.Publish_Content = class extends KUI.Page{
 				content : v.content,
 				type : v.type
 			};
-			d.time = moment( moment(v.date).format(KG.const.dateFormat)+' '+v.time, KG.const.dateAllFormat).toDate();
-			d.time = new Date(d.time);
+
+			d.time = moment(v.date, KG.const.dateAllFormat).toDate();
 	console.log(d);
 			callback(d);
 		});
@@ -167,10 +160,9 @@ UI.CM.Publish_Content = class extends KUI.Page{
 			assignGroup : d.assignGroup,
 			type : d.type
 		});
-		let tmp = moment(d.time).format(KG.const.dateAllFormat).split(' ');
+
 		this.refs.form.setFieldsValue({
-			time : tmp[1],
-			date : moment(tmp[0], KG.const.dateFormat).toDate()
+			date : d.time
 		});
 
 	}

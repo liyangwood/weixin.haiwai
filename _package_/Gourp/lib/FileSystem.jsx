@@ -1,5 +1,6 @@
-import {KG, FS} from 'meteor/kg:base';
+import {KG, FS, DataMan} from 'meteor/kg:base';
 
+FS.DataMan = DataMan;
 
 var createThumb = function(fileObj, readStream, writeStream) {
 	//gm(readStream, fileObj.name()).resize('256', '256').stream().pipe(writeStream);
@@ -67,6 +68,8 @@ FS._init = function(){
 		//	return FS.Chat.find();
 		//});
 	}
+
+
 
 
 	console.log('FS init success');
@@ -214,9 +217,10 @@ Image.initRoute = function(){
 
 
 
-	console.log('FS Route init success');
+
 };
 
 Image.getBase64Data = getBase64Data;
 FS.Image = Image;
+KG.FS = FS;
 export default FS;

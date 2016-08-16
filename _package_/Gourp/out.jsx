@@ -27,5 +27,5 @@ Meteor.startup(()=>{
 	KG.ZhiBoGroup = KG.create(config.ZhiBoGroup);
 
 	FS._init();
-	KG.FS = FS;
+	//KG.FS = FS;
 });
