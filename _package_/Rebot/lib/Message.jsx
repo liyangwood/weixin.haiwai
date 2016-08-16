@@ -332,12 +332,25 @@ var F = {
 
 				let now = new Date();
 				let after = moment(now).add(1, 'minutes').toDate();
+
+				let dstamp = KG.util.getDayStampByDate();
 				let pubList = KG.Content.getDB().find({
-					publishType : 'timer',
-					time : {
-						'$lte' : after,
-						'$gt' : now
-					}
+					$or : [
+						{
+							publishType : 'timer',
+							time : {
+								'$lte' : after,
+								'$gt' : now
+							}
+						},
+						{
+							publishType : 'loop',
+							loopDayStamp : {
+								$lte : dstamp+60,
+								$gt : dstamp
+							}
+						}
+					]
 				});
 
 				if(pubList.count() > 0){
@@ -347,8 +360,31 @@ var F = {
 							F.sendPublishTimerContent(l, item, wx);
 						});
 
+					});
+				}
 
+				//立即发布
+				pubList = KG.Content.getDB().find({
+					publishType : 'common',
+					flag : false
+				});
+				//KG.Content.getDB().remove({
+				//	publishType : 'common',
+				//	flag : true
+				//});
+				if(pubList.count() > 0){
+					_.each(pubList.fetch(), (item)=>{
 
+						_.each(item.assignGroup, (l)=>{
+							F.sendPublishTimerContent(l, item, wx);
+						});
+
+						//set flag to true
+						KG.Content.getDB().update({_id : item._id}, {
+							$set : {
+								flag : true
+							}
+						});
 					});
 				}
 

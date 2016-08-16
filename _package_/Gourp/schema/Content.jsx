@@ -32,10 +32,10 @@ export default Content = {
 		type : Number,
 		optional : true,
 		autoValue: function(doc){
-			console.log(this);
-			if(doc.publishType === 'loop'){
+
+			if(this.field('publishType').value === 'loop'){
 				if(this.isInsert || this.isUpdate || this.isUpsert){
-					return KG.util.getDayStampByDate(doc.time);
+					return KG.util.getDayStampByDate(this.field('time').value);
 				}
 			}
 
