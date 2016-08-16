@@ -212,20 +212,70 @@ util.ND = {
 };
 
 util.weixin = {
-	replaceMessageByType : function(item){
+	addAudio : function(src, endCallback){
+		var xx = $('#js_audio');
+		if(xx.length < 1){
+			$('body').append('<audio id="js_audio" autoplay></audio>');
+
+			xx = $('#js_audio');
+		}
+
+		xx.unbind('ended').bind('ended', endCallback);
+		xx.empty().append('<source src="'+src+'" type="audio/mp3" />');
+		xx[0].play();
+	},
+	replaceMessageByType : function(item, opts){
+		opts = opts || {};
+
 		var html = _.unescape(item.Content);
 		if(item.MsgType === 49){
 			return <a target="_blank" href={_.unescape(item.Url)}>{item.FileName}</a>
 		}
 		else if(item.MsgType === 3){
 			let imgStyle={
-				width : '120px',
+				width : opts.maxImageWidth || '120px',
 				height : 'auto'
 			};
 			return <a target="_blank" href={`/res/chat/image?id=${item.MsgId}`}><img style={imgStyle} src={`/res/chat/image?id=${item.MsgId}`} /></a>
 		}
 		else if(item.MsgType === 34){
-			return <a target="_blank" href={`/res/chat/voice?id=${item.MsgId}`}>voice</a>
+			let path = `/res/chat/voice?id=${item.MsgId}`;
+
+			let click = (e)=>{
+				var elem = $(e.target).closest('.js_voice');
+
+				util.weixin.addAudio(path, function(){
+					//elem.removeClass('kg-active');
+
+					//TODO 连读
+				});
+
+				elem.addClass('kg-active');
+			};
+			let sy = {
+				width : '100px',
+				background : '#fffe91',
+				height : '40px',
+				cursor : 'pointer',
+				borderRadius : '5px'
+			};
+			let sp = {
+				marginLeft : '5px',
+				fontSize : '14px'
+			};
+			let ig = {
+				width : '24px',
+				height : '24px'
+			};
+
+			return (
+				<div onClick={click} className="js_voice flex-center" style={sy}>
+					{/*<ND.Icon type="caret-circle-o-right"></ND.Icon> */}
+					<img style={ig} src="http://www.qunzhibo.com/static/img/adg.png" />
+					<span style={sp}>{Math.ceil(item.VoiceLength/1000)+'s"'}</span>
+				</div>
+
+			);
 		}
 
 		return html

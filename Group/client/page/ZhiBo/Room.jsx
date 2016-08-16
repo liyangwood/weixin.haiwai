@@ -48,7 +48,7 @@ UI.ZhiBo_Room = class extends KUI.Page{
 			}
 		}, {
 			sort : {
-				CreateTime : -1
+				CreateTime : 1
 			}
 		}).fetch();
 		let qun = KG.Qun.getDB().findOne({_id : zhibo.qunID});
@@ -65,7 +65,9 @@ UI.ZhiBo_Room = class extends KUI.Page{
 	}
 
 	replaceMessageContent(item){
-		return util.weixin.replaceMessageByType(item);
+		return util.weixin.replaceMessageByType(item, {
+			maxImageWidth : '500px'
+		});
 	}
 
 	renderMessageList(list){
@@ -79,9 +81,7 @@ UI.ZhiBo_Room = class extends KUI.Page{
 
 							return (
 								<ND.Timeline.Item key={index}>
-									{item.UserObject.NickName}
-									<p>{this.replaceMessageContent(item)}</p>
-									<p style={util.style.RD}>{moment.unix(item.CreateTime).format(KG.const.dateAllFormat)}</p>
+									{this.renderEachMessage(item)}
 								</ND.Timeline.Item>
 							)
 						})
@@ -89,5 +89,47 @@ UI.ZhiBo_Room = class extends KUI.Page{
 				</ND.Timeline>
 			</div>
 		);
+	}
+
+	renderEachMessage(item){
+		let sy = {
+			dt : {
+				height : '32px'
+			},
+			a1 : {
+				width : '32px',
+				height : '32px'
+			},
+			a2 : {
+				display : 'inline-block',
+				height : '32px',
+				'verticalAlign' : 'top',
+				fontSize : '15px',
+				color : '#787878',
+				marginLeft : '12px'
+			},
+			a3 : {
+				float : 'right'
+			},
+			dd : {
+				padding : '8px 12px',
+				marginTop : '2px',
+				background : '#eeeeee',
+				borderRadius : '5px'
+			}
+		};
+
+		return (
+			<div>
+				<dt style={sy.dt}>
+					<img style={sy.a1} src={`/res/head/image/${this.data.zhibo.qunID}/${item.UserObject.NickName}`} />
+					<span style={sy.a2} className="flex-center">{item.UserObject.NickName}</span>
+					<span style={sy.a3}>{moment.unix(item.CreateTime).format(KG.const.dateAllFormat)}</span>
+				</dt>
+				<dd style={sy.dd}>
+					{this.replaceMessageContent(item)}
+				</dd>
+			</div>
+		)
 	}
 };

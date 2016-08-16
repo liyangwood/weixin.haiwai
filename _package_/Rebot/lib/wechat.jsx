@@ -266,20 +266,21 @@ if(Meteor.isServer){
 				if(item.MemberCount < 1){
 					return;
 				}
+				if(!item.NickName) return;
 
 				var mlist = item.MemberList;
 				item.Member = {};
 				_.each(mlist, function(one){
 					item.Member[one.UserName] = one;
+
+					wx.saveHeadImage(item, one);
+
 				});
 
 				groupList[item.UserName] = item;
-				//f && wx.getHeadImage(item, function(path){
-				//
-				//	item.headUrl = path;
-				//});
 
-				if(!item.NickName) return;
+
+
 
 				//update qun info
 				let c = KG.Qun.getDB().find({
@@ -809,32 +810,34 @@ console.log(url);
 
 
 
-
-
-
-
-
-
-
-
-			getTestImage : function(id, callback){
-				var url = 'http://www.qunzhibo.com/media/group/云端俱乐部/1121/299278668868293356.mp4';
-
-				npmRequest(F.setOption({
-					url : url,
-					method : 'Get',
-					encoding : null,
-					headers : {
-						'Cookie' : wx.config.cookie,
-						'User-Agent' : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'
-					}
-				}), function(err, res, body){
-					//console.log(body);
-					callback(body);
-
+			saveHeadImage : function(qun, user){
+				//get qun id
+				let qunObj = KG.Qun.getDB().findOne({
+					name : qun.NickName,
+					rebot : curentUser.NickName
 				});
+				if(!qunObj) return false;
 
+				let fileName = qunObj._id+'/'+user.NickName;
+
+				KG.FS.Image.checkHeadImage(fileName, function(b){
+					if(!b){
+						wx.getHeadImage(user.UserName, function(buffer){
+							KG.FS.Image.saveHeadImage(fileName, buffer, function(err, obj){
+
+							});
+						});
+					}
+				});
 			},
+
+
+
+
+
+
+
+
 
 
 			stop : function(){

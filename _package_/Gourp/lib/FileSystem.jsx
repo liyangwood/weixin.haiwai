@@ -52,9 +52,15 @@ FS._init = function(){
 			new FS.Store.GridFS('HW-File-MSG34')
 		]
 	});
+	FS.HeadImage = new FS.Collection('HW-File-HeadImage', {
+		stores : [
+			new FS.Store.GridFS('HW-File-HeadImage')
+		]
+	});
 
 	FS.Chat.allow(allow);
 	FS.MSG34.allow(allow);
+	FS.HeadImage.allow(allow);
 
 	if(Meteor.isServer){
 		//Meteor.publish("images", function(){
@@ -68,42 +74,7 @@ FS._init = function(){
 
 let Image = {};
 
-////聊天信息中的图片
-//Image.Chat = new FS.Collection('image_chat', {
-//	stores: [new FS.Store.FileSystem("image_chat", {
-//		path : KG.config.pwd + '/temp/weixinlogimage',
-//		fileKeyMaker : function(file){
-//			return file.name();
-//		}
-//	})]
-//});
 
-
-//Image.Chat.allow({
-//	'insert': function () {
-//		// add custom authentication code here
-//		return true;
-//	}
-//});
-//
-//
-//Image.Head = new FS.Collection('image_head', {
-//	stores: [new FS.Store.FileSystem("image_head", {
-//		path : KG.config.pwd + '/temp/headimage',
-//		fileKeyMaker : function(file){
-//			return file.name();
-//		}
-//	})]
-//});
-//
-//Image.Head.allow({
-//	'insert': function () {
-//		// add custom authentication code here
-//		return true;
-//	}
-//});
-//
-//
 Image.saveChatImage = function(name, buffer, callback){
 
 	var newFile = new FS.File();
@@ -136,20 +107,28 @@ Image.saveChatVoice = function(name, buffer, callback){
 	}));
 };
 
-//
-//Image.saveHeadImage = function(name, buffer, callback){
-//	var newFile = new FS.File();
-//	newFile.attachData(buffer, {type: 'image/png'}, (function(error){
-//		console.log(buffer);
-//		if(error) throw error;
-//		newFile.name(name+'.png');
-//
-//		Image.Head.insert(newFile, function(err, file){
-//			callback(err, file);
-//		});
-//	}));
-//};
-//
+Image.checkHeadImage = function(name, callback){
+	let one = FS.HeadImage.findOne({
+		'original.name' : name
+	});
+
+	callback(!!one);
+};
+
+Image.saveHeadImage = function(name, buffer, callback){
+
+	var newFile = new FS.File();
+	newFile.attachData(buffer, {type: 'image/png'}, (function(error){
+		if(error) throw error;
+		newFile.name(name);
+
+		FS.HeadImage.insert(newFile, function(err, file){
+			callback(err, file);
+		});
+	}));
+};
+
+
 
 
 
@@ -180,6 +159,35 @@ Image.initRoute = function(){
 
 	});
 
+	//head image
+	KG.Picker.route('/res/head/image/:qunID/:name', function(p, req, res, next){
+
+		let qunID = p.qunID,
+			name = p.name;
+		let fileName = qunID+'/'+name;
+
+		let one = FS.HeadImage.findOne({
+			'original.name' : fileName
+		});
+
+		if(one){
+
+			let file = one.getFileRecord();
+			//console.log(file.url());
+
+			let stream = file.createReadStream('HW-File-HeadImage');
+			res.writeHead(200, {
+				'Content-Type': 'image/png',
+				'Content-Length': file.size()
+			});
+			stream.pipe(res);
+
+		}
+
+
+
+	});
+
 	//chat voice
 	KG.Picker.route('/res/chat/voice', function(p, req, res, next){
 
@@ -203,6 +211,8 @@ Image.initRoute = function(){
 		}
 
 	});
+
+
 
 	console.log('FS Route init success');
 };
