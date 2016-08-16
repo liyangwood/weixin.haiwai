@@ -11,7 +11,7 @@ UI.Publish_Timer_List = class extends KUI.Page{
 		let x1 = Meteor.subscribe(KG.config.Qun),
 			x2 = Meteor.subscribe(KG.config.Content, {
 				query : {
-					publishType : 'timer'
+					publishType : {$in : ['timer', 'loop']}
 				}
 			});
 		return {
@@ -57,8 +57,17 @@ UI.Publish_Timer_List = class extends KUI.Page{
 				dataIndex : 'content'
 			},
 			{
+				title : '是否循环',
+				render(t, doc){
+					return doc.publishType==='loop'?'是':'否';
+				}
+			},
+			{
 				title : '发布时间',
 				render(t, doc){
+					if(doc.publishType==='loop'){
+						return moment(doc.time).format('hh:mm:ss');
+					}
 					return moment(doc.time).format(KG.const.dateAllFormat);
 				}
 			},

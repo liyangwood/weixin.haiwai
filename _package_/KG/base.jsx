@@ -1,4 +1,5 @@
 import _ from 'underscore';
+import moment from 'moment';
 
 let All = {},
 	AllClass = {};
@@ -460,6 +461,18 @@ KG.util = {
 		}
 
 		return d;
+	},
+
+	//计算一个时间是当天的第多少秒
+	getDayStampByDate : function(date){
+		date = date || new Date();
+		if(!moment.isMoment(date)){
+			date = moment(date);
+		}
+
+		let ts = date.format('hh:mm:ss').split(':');
+		return parseInt(ts[2], 10) + parseInt(ts[1], 10)*60 + parseInt(ts[0], 10)*60*60;
+
 	}
 };
 
@@ -471,6 +484,7 @@ KG.util.email = {
 		return rs[1] || null;
 	}
 };
+
 
 export default KG;
 //module.exports = KG;

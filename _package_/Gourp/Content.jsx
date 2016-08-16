@@ -10,4 +10,8 @@ KG.define(config.Content, class extends Base{
 	defineDBSchema(){
 		return Content;
 	}
+
+	addTestData(){
+
+	}
 });

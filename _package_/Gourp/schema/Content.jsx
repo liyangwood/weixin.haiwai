@@ -1,4 +1,4 @@
-import {KG} from 'meteor/kg:base';
+import {KG, moment} from 'meteor/kg:base';
 
 export default Content = {
 	createTime : KG.schema.createTime(),
@@ -16,8 +16,8 @@ export default Content = {
 		defaultValue : []
 	}),
 	publishType : KG.schema.default({
-		//timer:定时发布，common:普通发布
-		allowedValues : ['timer', 'common'],
+		//timer:定时发布，common:立即发布, loop:每天循环
+		allowedValues : ['timer', 'common', 'loop'],
 		defaultValue : 'common',
 		optional : true
 	}),
@@ -28,12 +28,36 @@ export default Content = {
 		optional : true
 	},
 
-
-
-
-	//可能的媒体文件
-	attachFile : {
+	loopDayStamp : {
+		type : Number,
 		optional : true,
-		type : String
-	}
+		autoValue: function(doc){
+			console.log(this);
+			if(doc.publishType === 'loop'){
+				if(this.isInsert || this.isUpdate || this.isUpsert){
+					return KG.util.getDayStampByDate(doc.time);
+				}
+			}
+
+		}
+	},
+
+
+	//指定状态，如果是立即发布的，标示是否发布过
+	flag : KG.schema.default({
+		type : Boolean,
+		defaultValue : false,
+		optional : true
+	}),
+
+
+	//指定发布插件
+	plugin : KG.schema.default({
+		optional : true
+	}),
+
+	status : KG.schema.default({
+		optional : true,
+		defaultValue : 'active'
+	})
 };

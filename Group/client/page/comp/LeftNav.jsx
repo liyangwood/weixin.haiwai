@@ -75,12 +75,12 @@ UI.LeftNav = class extends KUI.RC.CSS{
 					{
 						id : 'timer',
 						title : '定时发布'
+					},
+					{
+						id : 'common',
+						title : '立即发布'
 					}
 				]
-			},
-			{
-				id : 'other',
-				title : '其他设置'
 			}
 		];
 

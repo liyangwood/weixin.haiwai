@@ -38,7 +38,6 @@ UI.Publish_Timer_Edit = class extends KUI.Page{
 			if(!d) return false;
 			console.log(d);
 
-			d.publishType = 'timer';
 
 			KG.Content.getDB().update({_id : self.data.id}, {
 				$set : d

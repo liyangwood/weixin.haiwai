@@ -33,6 +33,11 @@ let ELEM = class extends KUI.React.Component{
 					}
 				]
 			}),
+			publishType : get('publishType', {
+				rules: [
+					{}
+				]
+			}),
 
 			type : get('type', {
 				rules: [
@@ -77,6 +82,12 @@ let ELEM = class extends KUI.React.Component{
 					label="发布时间"
 					>
 					<ND.DatePicker locale={{...local}} format="MM/dd/yyyy HH:mm:ss" showTime={true} {...p.date} />
+
+					<ND.Radio.Group defaultValue="timer" style={util.style.ML_20} {... p.publishType}>
+						<ND.Radio.Button value="timer">单次</ND.Radio.Button>
+						<ND.Radio.Button value="loop">循环</ND.Radio.Button>
+					</ND.Radio.Group>
+					<p className="hw-formtip">循环就是每天的同一时间触发</p>
 				</FormItem>
 
 				<FormItem
@@ -111,9 +122,6 @@ let ELEM = class extends KUI.React.Component{
 
 
 	}
-	changeDate(v){
-		console.log(v);
-	}
 
 
 };
@@ -144,7 +152,8 @@ UI.CM.Publish_Content = class extends KUI.Page{
 			let d = {
 				assignGroup : v.assignGroup,
 				content : v.content,
-				type : v.type
+				type : v.type,
+				publishType : v.publishType
 			};
 
 			d.time = moment(v.date, KG.const.dateAllFormat).toDate();
@@ -158,7 +167,8 @@ UI.CM.Publish_Content = class extends KUI.Page{
 		this.refs.form.setFieldsValue({
 			content : d.content,
 			assignGroup : d.assignGroup,
-			type : d.type
+			type : d.type,
+			publishType : d.publishType
 		});
 
 		this.refs.form.setFieldsValue({
@@ -167,10 +177,20 @@ UI.CM.Publish_Content = class extends KUI.Page{
 
 	}
 
+	reset(){
+		this.refs.form.setFieldsValue({
+			publishType : 'timer',
+			type : 'text'
+		});
+	}
+
 	runOnceAfterDataReady(){
 		let d = this.props['init-data'];
 		if(d){
 			this.setValue(d);
+		}
+		else{
+			this.reset();
 		}
 	}
 };
