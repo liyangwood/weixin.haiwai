@@ -158,6 +158,14 @@ PublishRoute.route('/timer/edit/:id', {
 		});
 	}
 });
+PublishRoute.route('/common', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '立即发布',
+			bodyTmpl : <UI.Publish_Common_Add />
+		});
+	}
+});
 
 //event
 let EventRoute = FlowRouter.group({
