@@ -10,6 +10,8 @@ import './Event.jsx';
 import './GroupMessage.jsx';
 import './ZhiBoGroup.jsx';
 
+import './Plugin.jsx'
+
 KG.config = config;
 
 if(Meteor.isServer){
@@ -25,6 +27,8 @@ Meteor.startup(()=>{
 
 	KG.GroupMessage = KG.create(config.GroupMessage);
 	KG.ZhiBoGroup = KG.create(config.ZhiBoGroup);
+
+	KG.Plugin = KG.create(config.Plugin);
 
 	FS._init();
 	//KG.FS = FS;

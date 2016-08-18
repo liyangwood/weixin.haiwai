@@ -8,5 +8,7 @@ export default {
 
 	GroupMessage : 'HW-GroupMessage',
 
-	ZhiBoGroup : 'HW-ZhiBoGroup'
+	ZhiBoGroup : 'HW-ZhiBoGroup',
+
+	Plugin : 'HW-Plugin'
 };

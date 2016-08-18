@@ -216,6 +216,21 @@ var F = {
 		if('积分'===text){
 			callback(this.getJiFenResult(msg.qunID));
 		}
+		else if('文学城新闻' === text){
+			KG.Plugin.getPluginValue('wxc_news', function(flag, h){
+				if(flag) callback(h);
+			});
+		}
+		else if('文学城论坛' === text){
+			KG.Plugin.getPluginValue('wxc_bbs', function(flag, h){
+				if(flag) callback(h);
+			});
+		}
+		else if('私房小菜' === text){
+			KG.Plugin.getPluginValue('wxc_bbs_cooking', function(flag, h){
+				if(flag) callback(h);
+			});
+		}
 
 	},
 
