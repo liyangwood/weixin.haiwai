@@ -459,8 +459,23 @@ var F = {
 			return d.NickName === qun.name;
 		});
 
-		if(one && item.content){
-			//console.log('[send Timer Content]', item.content, one.UserName, cu.UserName);
+		if(!one) return false;
+
+		if(item.plugin){
+			KG.Plugin.getPluginValue(item.plugin, function(flag, h){
+				if(flag){
+					wx.sendMessage({
+						type : 1,
+						FromUserName : cu.UserName,
+						ToUserName : one.UserName,
+						Content : h
+					}, function(err, rs){
+						console.log(err, rs);
+					});
+				}
+			});
+		}
+		else{
 			wx.sendMessage({
 				type : 1,
 				FromUserName : cu.UserName,
@@ -470,6 +485,7 @@ var F = {
 				console.log(err, rs);
 			});
 		}
+
 	}
 
 
