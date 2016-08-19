@@ -60,6 +60,13 @@ UI.Publish_Timer_List = class extends KUI.Page{
 				}
 			},
 			{
+				title : '插件',
+				dataIndex : 'plugin',
+				render(t, doc){
+					return t?KG.Plugin.getPluginName(t):'';
+				}
+			},
+			{
 				title : '是否循环',
 				render(t, doc){
 					return doc.publishType==='loop'?'是':'否';

@@ -18,12 +18,16 @@ let ELEM = class extends KUI.React.Component{
 			content : get('content', {
 				initialValue : '',
 				rules : [
-					{
-						required: true,
-						message: '请输入发布内容'
-					}
+					//{
+					//	required: true,
+					//	message: '请输入发布内容'
+					//}
 				]
 			}),
+			plugin : get('plugin', {
+				initialValue : ''
+			}),
+
 			date : get('date', {
 				rules: [
 					{
@@ -69,6 +73,11 @@ let ELEM = class extends KUI.React.Component{
 			timezoneOffset : moment(new Date()).utcOffset()
 		};
 
+		let plugin_list = [{
+			key : '-1',
+			value : '无'
+		}].concat(KG.Plugin.getPluginNameList());
+
 		return (
 			<Form horizontal form={this.props.form}>
 				<FormItem
@@ -77,6 +86,22 @@ let ELEM = class extends KUI.React.Component{
 					>
 					<ND.Input style={{height:'80px'}} type="textarea" {... p.content} />
 				</FormItem>
+				<FormItem
+					{...formItemLayout}
+					label="选择插件"
+					>
+					<ND.Select {...p.plugin} placeholder="">
+						{
+							_.map(plugin_list, (item, index)=>{
+								return <ND.Select.Option key={index} value={item.key}>{item.value}</ND.Select.Option>
+							})
+						}
+					</ND.Select>
+					<p className="hw-formtip">注意：如果选择插件，会覆盖发布内容。</p>
+				</FormItem>
+
+				<div className="line" />
+
 				<FormItem
 					{...formItemLayout}
 					label="发布时间"
@@ -153,8 +178,10 @@ UI.CM.Publish_Content = class extends KUI.Page{
 				assignGroup : v.assignGroup,
 				content : v.content,
 				type : v.type,
-				publishType : v.publishType
+				publishType : v.publishType,
+				plugin : v.plugin==='-1'?'':v.plugin
 			};
+
 
 			d.time = moment(v.date, KG.const.dateAllFormat).toDate();
 	console.log(d);
@@ -172,7 +199,8 @@ UI.CM.Publish_Content = class extends KUI.Page{
 		});
 
 		this.refs.form.setFieldsValue({
-			date : d.time
+			date : d.time,
+			plugin : d.plugin || '-1'
 		});
 
 	}
@@ -180,7 +208,8 @@ UI.CM.Publish_Content = class extends KUI.Page{
 	reset(){
 		this.refs.form.setFieldsValue({
 			publishType : 'timer',
-			type : 'text'
+			type : 'text',
+			plugin : '-1'
 		});
 	}
 

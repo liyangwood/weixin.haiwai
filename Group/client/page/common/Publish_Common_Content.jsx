@@ -25,6 +25,10 @@ let ELEM = class extends KUI.React.Component{
 				]
 			}),
 
+			plugin : get('plugin', {
+				initialValue : ''
+			}),
+
 			type : get('type', {
 				rules: [
 					{ required: true, message: '请选择消息类型' }
@@ -64,6 +68,7 @@ let ELEM = class extends KUI.React.Component{
 					>
 					<ND.Input style={{height:'80px'}} type="textarea" {... p.content} />
 				</FormItem>
+
 
 
 				<FormItem

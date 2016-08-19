@@ -127,6 +127,9 @@ KG.define(config.Plugin, class extends Base{
 
 		return rs;
 	}
+	getPluginName(key){
+		return PLUGIN_LIST[key] ? PLUGIN_LIST[key].name : '';
+	}
 
 	getPluginValue(key, callback){
 		if(!PLUGIN_LIST[key]){
