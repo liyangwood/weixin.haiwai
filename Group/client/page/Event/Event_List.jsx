@@ -69,6 +69,16 @@ UI.Event_List = class extends KUI.Page{
 				}
 			},
 			{
+				title : '时间范围',
+				render(t, doc){
+					if(doc.startTime && doc.endTime){
+						return moment(doc.startTime).format(KG.const.dateAllFormat) + ' - ' +moment(doc.endTime).format(KG.const.dateAllFormat);
+					}
+
+					return '';
+				}
+			},
+			{
 				title: '操作',
 				className: 'hw-center',
 				render(t, doc){

@@ -40,14 +40,22 @@ let ELEM = class extends KUI.React.Component{
 			}),
 
 
-
-
-			startTime : get('startTime', {
-				getValueFromEvent: (value, timeString) => timeString
+			dateRange : get('dateRange', {
+				rules : [
+					{
+						required: true,
+						type : 'array',
+						message: '请选择时间范围'
+					}
+				]
 			}),
-			endTime : get('time', {
-				getValueFromEvent: (value, timeString) => timeString
-			}),
+
+			//startTime : get('startTime', {
+			//	getValueFromEvent: (value, timeString) => timeString
+			//}),
+			//endTime : get('time', {
+			//	getValueFromEvent: (value, timeString) => timeString
+			//}),
 
 
 
@@ -77,6 +85,10 @@ let ELEM = class extends KUI.React.Component{
 		const lay = {
 			labelCol: { span: 4 },
 			wrapperCol: { span: 16 }
+		};
+
+		let local = {
+			timezoneOffset : moment(new Date()).utcOffset()
 		};
 
 		return (
@@ -121,6 +133,15 @@ let ELEM = class extends KUI.React.Component{
 					<p className="hw-formtip">{TipMessage[this.props.form.getFieldValue('type')]}</p>
 				</FormItem>
 
+				<FormItem
+					{...lay}
+					label="时间范围"
+					>
+					<ND.DatePicker.RangePicker locale={{...local}} format="MM/dd/yyyy HH:mm:ss" showTime={true} {...p.dateRange} />
+
+
+				</FormItem>
+
 			</ND.Form>
 		);
 
@@ -162,7 +183,9 @@ UI.CM.Event_Add = class extends KUI.Page{
 				assignGroup : v.assignGroup,
 				content : v.content || '',
 				reply : v.reply,
-				type : v.type
+				type : v.type,
+				startTime : v.dateRange[0],
+				endTime : v.dateRange[1]
 			};
 			console.log(d);
 			callback(d);
@@ -182,6 +205,14 @@ UI.CM.Event_Add = class extends KUI.Page{
 				content : d.content || '',
 			});
 		}
+
+		let dateRange = [d.startTime||'', d.endTime||''];
+		if(d.startTime && d.endTime){
+			this.refs.form.setFieldsValue({
+				dateRange : dateRange
+			});
+		}
+
 
 	}
 
