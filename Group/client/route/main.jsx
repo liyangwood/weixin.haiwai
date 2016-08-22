@@ -55,6 +55,22 @@ QunRoute.route('/message/list', {
 		});
 	}
 });
+QunRoute.route('/message/selectandexport', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '群消息',
+			bodyTmpl : <UI.Qun_SelectAndExport />
+		});
+	}
+});
+QunRoute.route('/message/export/edit', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '群消息',
+			bodyTmpl : <UI.Qun_EditExport />
+		});
+	}
+});
 
 // zhibo
 let ZhiBoRoute = FlowRouter.group({

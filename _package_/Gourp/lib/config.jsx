@@ -10,5 +10,7 @@ export default {
 
 	ZhiBoGroup : 'HW-ZhiBoGroup',
 
-	Plugin : 'HW-Plugin'
+	Plugin : 'HW-Plugin',
+
+	Article : 'HW-Article'
 };
