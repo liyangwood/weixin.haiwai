@@ -29,6 +29,8 @@ kadira:flow-router
 cfs:standard-packages
 cfs:gridfs
 
+summernote:summernote
+
 kg:base
 kg:kui
 kg:group

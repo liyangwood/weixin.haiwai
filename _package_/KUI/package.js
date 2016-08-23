@@ -19,6 +19,7 @@ Package.onUse(function (api) {
 	api.use("modules");
 
 	var packages = [
+		'summernote:summernote',
 		'react-meteor-data',
 
 		'kg:base'

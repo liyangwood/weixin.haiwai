@@ -9,6 +9,7 @@ import './Event.jsx';
 
 import './GroupMessage.jsx';
 import './ZhiBoGroup.jsx';
+import './Article.jsx';
 
 import './Plugin.jsx'
 
@@ -29,6 +30,8 @@ Meteor.startup(()=>{
 	KG.ZhiBoGroup = KG.create(config.ZhiBoGroup);
 
 	KG.Plugin = KG.create(config.Plugin);
+
+	KG.Article = KG.create(config.Article);
 
 	FS._init();
 	//KG.FS = FS;
