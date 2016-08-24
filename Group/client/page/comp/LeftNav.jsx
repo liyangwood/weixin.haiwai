@@ -25,8 +25,8 @@ UI.LeftNav = class extends KUI.RC.CSS{
 						title : '列表'
 					},
 					{
-						id : 'add',
-						title : '添加'
+						id : 'article/list',
+						title : '导出内容列表'
 					}
 				]
 			},
@@ -98,9 +98,15 @@ UI.LeftNav = class extends KUI.RC.CSS{
 
 	renderSubMenu(data){
 		let click = (e, de)=>{};
+		let sy = {
+			h4 : {
+				fontSize:'16px',
+				display : 'inline-block'
+			}
+		};
 
 		return (
-			<SubMenu key={data.id} onTitleClick={click.bind(this)} title={<h4>{data.title}</h4>}>
+			<SubMenu key={data.id} onTitleClick={click.bind(this)} title={<h4 style={sy.h4}>{data.title}</h4>}>
 				{
 					_.map(data.children, (item)=>{
 						return <Menu.Item key={`${data.id}-${item.id}`}>{item.title}</Menu.Item>

@@ -36,6 +36,11 @@ body{
         }
     }
 }
+.m-box{
+    &>h3{
+        font-size: 16px !important;
+    }
+}
 
 hr{
     margin: 20px 0;

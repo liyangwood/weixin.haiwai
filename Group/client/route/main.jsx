@@ -23,6 +23,14 @@ QunRoute.route('/list', {
 		});
 	}
 });
+QunRoute.route('/article/list', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '导出列表',
+			bodyTmpl : <UI.Qun_ExportList />
+		});
+	}
+});
 QunRoute.route('/tmp/list', {
 	action(p){
 		App.routeHandler(p, {
@@ -64,6 +72,14 @@ QunRoute.route('/message/selectandexport', {
 	}
 });
 QunRoute.route('/message/export/edit', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '群消息',
+			bodyTmpl : <UI.Qun_EditExport />
+		});
+	}
+});
+QunRoute.route('/article/edit/:id', {
 	action(p){
 		App.routeHandler(p, {
 			pageTitle : '群消息',

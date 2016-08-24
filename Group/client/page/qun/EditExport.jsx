@@ -2,27 +2,57 @@
 UI.Qun_EditExport = class extends KUI.Page{
 	constructor(p){
 		super(p);
-
-		let htmlData = Session.get('Qun-TempData');
-		this.html = _.map(htmlData, (m)=>{
-			if(m.MsgType === 3){
-				return '<img src="http://'+location.host+'/res/chat/image?id='+m.MsgId+'" />';
-			}
-
-			return m.Content;
-		});
-
 	}
 
 	getMeteorData(){
+
+		this.D = this.getHtmlContent();
+
 		return {
-			ready : true
+			ready : this.D.type==='edit'?this.D.sub.ready():true
 		};
 	}
 
-	render(){
-		console.log(this.html);
+	getHtmlContent(){
+		let id = FlowRouter.getParam('id');
 
+		if(id){
+			//edit
+			let x = Meteor.subscribe(KG.config.Article, {query : {_id : id}});
+			let data = {};
+			if(x.ready()){
+				data = KG.Article.getDB().findOne({_id : id});
+			}
+			return {
+				type : 'edit',
+				data : data,
+				html : data.content,
+				sub : x
+			};
+		}
+		else{
+			let htmlData = Session.get('Qun-TempData');
+			let html = _.map(htmlData, (m)=>{
+				if(m.MsgType === 3){
+					return '<img style="max-width:100%;" src="http://'+location.host+'/res/chat/image?id='+m.MsgId+'" />';
+				}
+
+				return m.Content;
+			});
+
+			return {
+				type : 'add',
+				html : html.join('<br/>')
+			};
+		}
+
+
+	}
+
+	render(){
+		if(!this.data.ready){
+			return util.renderLoading();
+		}
 		let p = {
 			title : {
 				placeholder : '标题',
@@ -65,15 +95,40 @@ UI.Qun_EditExport = class extends KUI.Page{
 			content : code
 		};
 
-		KG.Article.getDB().insert(data, function(err, uid){
-			if(!err){
-				swal('Insert Success', '', 'success');
-			}
-		});
+		if(!data.title){
+			ND.message.error('没有标题');
+			return false;
+		}
+
+		if(this.D.type === 'add'){
+			KG.Article.getDB().insert(data, function(err, uid){
+				if(!err){
+					swal('Insert Success', '', 'success');
+					util.goPath('/qun/article/list');
+				}
+			});
+		}
+		else{
+			KG.Article.getDB().update({_id : this.D.data._id}, {$set : data}, function(err, nd){
+				if(!err){
+					swal('Update Success', '', 'success');
+					util.goPath('/qun/article/list');
+				}
+			});
+		}
+
+
 	}
 
 	runOnceAfterDataReady(){
-		util.getReactJQueryObject(this.refs.editor).summernote('code', this.html.join('<br/>'));
+		if(this.D.type === 'add'){
+			util.getReactJQueryObject(this.refs.editor).summernote('code', this.D.html);
+		}
+		else{
+			util.ND.setInputValue(this.refs.title, this.D.data.title);
+			util.getReactJQueryObject(this.refs.editor).summernote('code', this.D.html);
+		}
+
 	}
 
 

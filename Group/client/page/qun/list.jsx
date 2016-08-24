@@ -43,6 +43,12 @@ UI.Qun_List = class extends KUI.Page{
 				<UI.CM.Filter ref="filter" config={FilterConfig} callback={this.search.bind(this)} />
 				<hr/>
 				{this.renderTable(list)}
+
+				<div className="line" />
+				<div style={util.style.RD}>
+					<ND.Button type="primary"
+					           onClick={()=>{util.goPath(`/qun/add`)}}>添加</ND.Button>
+				</div>
 			</div>
 		);
 
