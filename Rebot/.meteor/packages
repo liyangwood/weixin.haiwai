@@ -27,7 +27,7 @@ fourseven:scss
 
 kadira:flow-router
 meteorhacks:picker
-
+summernote:summernote
 http
 cfs:standard-packages
 cfs:gridfs

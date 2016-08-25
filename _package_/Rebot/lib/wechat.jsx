@@ -26,7 +26,7 @@ if(Meteor.isServer){
 	var FormData = require('form-data');
 
 	Meteor.startup(function(){
-
+		//console.log(request.post)
 
 	});
 
@@ -684,21 +684,55 @@ if(Meteor.isServer){
 
 			},
 
+			sendImageMessage : function(opts, callback){
+				var url = '/mmwebwx-bin/webwxsendmsgimg?fun=async&f=json&pass_ticket='+wx.config.pass_ticket;
+				var localId = _.random(100000000000, 999999999999);
+
+				wx.uploadImageToWeixin(opts.imageUrl||'', Meteor.bindEnvironment(function(err, json){
+					if(err){
+						console.log(err);
+						return false;
+					}
+					if(json.MediaId){
+						//send image
+						var data = {
+							BaseRequest : F.getBaseRequest(),
+							Msg : {
+								ClientMsgId : localId,
+								MediaId: json.MediaId,
+								FromUserName: opts.FromUserName,
+								LocalID: localId,
+								ToUserName: opts.ToUserName,
+								Type: 3
+							},
+							Scene : 0
+						};
+						console.log(data);
+
+						request(F.setOption({
+							url : wx.config.host+url,
+							method : 'POST',
+							headers : F.getRequestHeader(),
+							json : true,
+							data : data
+						}), function(err, res, body){
+							//console.log(body);
+							callback(err, body);
+
+						});
+					}
+				}));
+
+
+			},
 
 			sendMessage : function(opts, callback){
 
 				var url = '/mmwebwx-bin/webwxsendmsg?lang=zh_CN&pass_ticket='+wx.config.pass_ticket;
 
-				if(opts.type === 3){
-					url = '/mmwebwx-bin/webwxsendmsgimg?f=json&pass_ticket='+wx.config.pass_ticket;
-				}
 
 				var localId = _.random(100000000000, 999999999999);
 
-				//if(true || opts.type === 3){
-				//	// 先获取MediaId
-				//	wx.uploadImageToWeixin('', function(){});
-				//}
 
 				var data = {
 					BaseRequest : F.getBaseRequest(),
@@ -711,10 +745,6 @@ if(Meteor.isServer){
 						Type: opts.type
 					}
 				};
-				if(opts.type === 3){
-					data.Msg.MediaId = opts.MediaId;
-					delete data.Msg.Content;
-				}
 
 				request(F.setOption({
 					url : wx.config.host+url,
@@ -732,7 +762,9 @@ if(Meteor.isServer){
 			//上传图片到微信，返回 mediaID
 			uploadImageToWeixin : function(imgPath, callback){
 				imgPath = imgPath || 'http://www.haiwai.com/pc/image/newlogo2x.png';
-				var url = 'https://file.wx.qq.com/cgi-bin/mmwebwx-bin/webwxuploadmedia?f=json';
+				let u = 'https://file.wx.qq.com',
+					p = '/cgi-bin/mmwebwx-bin/webwxuploadmedia?f=json';
+				var url = u+p;
 
 				var file = new KG.FS.File();
 
@@ -741,69 +773,59 @@ if(Meteor.isServer){
 					method : 'Get',
 					encoding : null
 				}, function(e, res, buffer){
+
 					if(!e){
 						file.attachData(buffer, {type: 'image/png'}, (function(error){
 							if(error) throw error;
-
+							let size = file.size(),
+								stype = file.type();
 
 							let uploadMediaRequest = JSON.stringify({
 								//UploadType : 2,
 								ClientMediaId: _.random(100000000000, 999999999999),
-								TotalLen: file.size(),
+								TotalLen: size,
 								StartPos: 0,
-								DataLen: file.size(),
+								DataLen: size,
 								MediaType: 4,
 								BaseRequest : F.getBaseRequest()
 							});
 
-							let FormData1 = class{
-								constructor(){
-									this.data = {};
-								}
-								append(key, value){
-									this.data[key] = value;
-								}
-								get(key){
-									return this.data[key];
-								}
-							};
 
-							let form = new FormData();
-							form.append('id', 'WU_FILE_0');
-							form.append('name', 'filename');
-							form.append('type', file.type());
-							form.append('lastModifieDate', new Date().toGMTString());
-							form.append('size', file.size());
-							form.append('mediatype', 'pic');
-							form.append('uploadmediarequest', uploadMediaRequest);
-							form.append('webwx_data_ticket', wx.config.cookieObj['webwx_data_ticket']);
-							form.append('pass_ticket', (wx.config.pass_ticket));
-							form.append('filename', buffer, {
-								filename: 'filename',
-								contentType: file.type(),
-								knownLength: file.size()
-							});
 
-//TODO 这里有问题，返回总是失败
-							console.log('---send data----', form);
-							npmRequest(F.setOption({
+							//注意这里的图片提交方式用的是request.post
+							let R = npmR.post(({
 								url : url,
-								method : 'POST',
 								headers : {
 									"Accept": "*/*",
 									"Accept-Encoding": "gzip, deflate",
-									'Content-Type':'multipart/form-data',
+									//'Content-Type':'multipart/form-data; boundary='+form.getBoundary(),
 									'Host':'file.wx.qq.com',
 									'Origin':'https://wx.qq.com',
 									'Referer':'https://wx.qq.com/'
 								},
-								json : true,
-								data : form
+								json : true
 							}), function(err, res, body){
-								console.log(body);
+								//console.log(err, res, body);
+								console.log(body.MediaId);
 								callback(err, body);
 
 							});
+							let form = R.form();
+							form.append('id', 'WU_FILE_0');
+							form.append('name', 'filename');
+							form.append('type', stype);
+							form.append('lastModifieDate', new Date().toGMTString());
+							form.append('size', size);
+							form.append('mediatype', 'pic');
+							form.append('uploadmediarequest', uploadMediaRequest);
+							form.append('webwx_data_ticket', wx.config.cookieObj['webwx_data_ticket']);
+							form.append('pass_ticket', (wx.config.pass_ticket));
+							form.append('filename', new Buffer(buffer), {
+								filename: 'filename',
+								contentType: stype,
+								knownLength: size
+							});
+
 
 						}));
 					}
@@ -812,62 +834,7 @@ if(Meteor.isServer){
 
 
 
-				let buildParam = function(){
-					let newLine = '\r\n';
-					let new2Lines = '\r\n\r\n';
-					let boundaryInContentType = '----WebKitFormBoundaryoIZX50qII6ZUUQAX';// + Math.random().toString(16)
-					let boundary = '--' + boundaryInContentType;
-					let boundaryKey = boundary + newLine;
-					let endBoundary = '\r\n\r\n--' + boundaryInContentType + '--\r\n';
 
-					let content = boundaryKey;
-					content += 'Content-Disposition: form-data; name="id"' + new2Lines;
-					content +=  wuFileType[ext] + newLine;
-
-					content += boundaryKey;
-					content += 'Content-Disposition: form-data; name="name"' + new2Lines;
-					content += fileName + newLine;
-
-					content += boundaryKey;
-					content += 'Content-Disposition: form-data; name="type"' + new2Lines;
-					content += mediaType[ext] + newLine;
-
-					content += boundaryKey;
-					content += 'Content-Disposition: form-data; name="lastModifiedDate"' + new2Lines;
-					content += stats.mtime + newLine;
-
-					content += boundaryKey;
-					content += 'Content-Disposition: form-data; name="size"' + new2Lines;
-					content += stats.size + newLine;
-
-					content += boundaryKey;
-					content += 'Content-Disposition: form-data; name="mediatype"' + new2Lines;
-					content += mediaT[ext] + newLine;
-
-					content += boundaryKey;
-					content += 'Content-Disposition: form-data; name="uploadmediarequest"' + new2Lines;
-					let uploadMediaRequest = {
-						BaseRequest: Client.BaseRequest,
-						ClientMediaId: +new Date,
-						TotalLen: stats.size,
-						StartPos: 0,
-						DataLen: stats.size,
-						MediaType: UPLOAD_MEDIA_TYPE_ATTACHMENT
-					};
-					content += JSON.stringify(uploadMediaRequest) + newLine;
-
-					content += boundaryKey;
-					content += 'Content-Disposition: form-data; name="webwx_data_ticket"' + new2Lines;
-					content += Client.cookies.webwx_data_ticket + newLine;
-
-					content += boundaryKey;
-					content += 'Content-Disposition: form-data; name="pass_ticket"' + new2Lines;
-					content += 'jfL17ewPjc7ArkA84QGNyxpnL7bq7ZEaUJ8x4r/MzsliajJ8F1KT4RIQB73Zn9IW' + newLine;
-
-					content += boundaryKey;
-					content += 'Content-Disposition: form-data; name="filename"; filename="' + fileName + '"' + newLine;
-					content += 'Content-Type: ' + mediaType[ext] + new2Lines;
-				};
 			},
 
 

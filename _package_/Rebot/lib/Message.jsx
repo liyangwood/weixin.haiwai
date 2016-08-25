@@ -304,6 +304,15 @@ var F = {
 
 					if(!rs) return;
 
+					wx.sendImageMessage({
+						type : 3,
+						FromUserName : msg.ToUserName,
+						ToUserName : msg.FromUserName,
+						imageUrl : ''
+					}, function(err, rs){
+						console.log(rs);
+					});
+
 					wx.sendMessage({
 						type : 1,
 						FromUserName : msg.ToUserName,
