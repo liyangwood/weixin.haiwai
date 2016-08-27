@@ -159,8 +159,8 @@ console.log(v);
 
 			d.publishType = 'common';
 
-			console.log(d);
-			//callback(d);
+			//console.log(d);
+			callback(d);
 		});
 	}
 

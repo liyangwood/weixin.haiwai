@@ -40,7 +40,7 @@ UI.Publish_Common_Add = class extends KUI.RC.CSS{
 
 			KG.Content.getDB().insert(d, function(err, nid){
 				if(err){
-					util.alert.error(err);
+					console.log(err);
 					return false;
 				}
 
