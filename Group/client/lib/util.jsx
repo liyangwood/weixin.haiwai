@@ -282,6 +282,73 @@ util.weixin = {
 	}
 };
 
+util.ajax = {
+	ajax : function(opts, success, error){
+		var url = 'http://www.haiwai.com/service/api/?format=json';
+
+		var type = opts.method || 'get';
+		delete opts.method;
+
+		var dtd = $.Deferred();
+
+		if(opts.url){
+			url += '&'+opts.url;
+			delete opts.url;
+		}
+
+		if(type === 'post'){
+			url += '&func='+opts.func;
+			url += '&act='+opts.act;
+		}
+		//console.log(url);
+
+		var dataType = 'json';
+		if(opts.jsonp){
+			dataType = 'jsonp';
+			delete opts.jsonp;
+		}
+
+		$.ajax({
+			type : type,
+			url : url,
+			data : opts,
+			dataType : type==='get'?'jsonp':dataType,
+			success : function(json){
+
+				if(success){
+					success.call(null, json.status>0, json.return);
+				}
+
+				dtd.resolve(json.return);
+
+			},
+			error : function(err){
+				if(error){
+					error(err);
+				}
+
+				dtd.reject(err);
+
+			}
+		});
+
+
+		return dtd;
+
+	},
+	uploadImage : function(opts, success, error){
+		var data = {
+			func : 'article',
+			act : 'upload',
+			method : 'post',
+			type : 'image',
+			'uploadfield[]' : opts.image
+		};
+
+		return this.ajax(data, success, error);
+	}
+};
+
 
 window.util = util;
 window._ = _;

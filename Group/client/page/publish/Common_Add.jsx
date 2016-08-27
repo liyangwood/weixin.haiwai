@@ -35,7 +35,6 @@ UI.Publish_Common_Add = class extends KUI.RC.CSS{
 
 		this.refs.form.getValue(function(d){
 			if(!d) return false;
-			console.log(d);
 
 
 			KG.Content.getDB().insert(d, function(err, nid){

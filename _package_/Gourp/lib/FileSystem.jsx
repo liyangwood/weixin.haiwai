@@ -237,28 +237,28 @@ Image.initRoute = function(){
 
 
 
-		var buffer = [];
-
-		res.on('data', Meteor.bindEnvironment(function(chunk){
-			console.log(chunk.length)
-			buffer.push(chunk);
-		}));
-
-		res.on('end', Meteor.bindEnvironment(function(){
-			//save to db
-			buffer = Buffer.concat(buffer);
-
-			console.log(buffer);
-			var f = new FS.File();
-
-			f.attachData(buffer, {type: 'image/jpeg'});
-			console.log(f.name(), f.type(), f.size());
-			let nn = Meteor.uuid()+'.jpeg';
-			f.name(nn);
-			f = FS.Upload.insert(f);
-			res.end(JSON.stringify({url:'/res/upload/'+f.name()}));
-
-		}));
+		//var buffer = [];
+		//
+		//res.on('data', Meteor.bindEnvironment(function(chunk){
+		//	console.log(chunk.length)
+		//	buffer.push(chunk);
+		//}));
+		//
+		//res.on('end', Meteor.bindEnvironment(function(){
+		//	//save to db
+		//	buffer = Buffer.concat(buffer);
+		//
+		//	console.log(buffer);
+		//	var f = new FS.File();
+		//
+		//	f.attachData(buffer, {type: 'image/jpeg'});
+		//	console.log(f.name(), f.type(), f.size());
+		//	let nn = Meteor.uuid()+'.jpeg';
+		//	f.name(nn);
+		//	f = FS.Upload.insert(f);
+		//	res.end(JSON.stringify({url:'/res/upload/'+f.name()}));
+		//
+		//}));
 
 	});
 

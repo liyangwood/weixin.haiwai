@@ -14,6 +14,7 @@ let ELEM = class extends KUI.React.Component{
 	}
 
 	defineProps(get){
+		let self = this;
 		return {
 			content : get('content', {
 				initialValue : '',
@@ -83,13 +84,20 @@ let ELEM = class extends KUI.React.Component{
 
 					<ND.Radio.Group {... p.type}>
 						<ND.Radio value="text">文字</ND.Radio>
-						{/*<ND.Radio value="image">图片</ND.Radio>*/}
+						<ND.Radio value="image">图片</ND.Radio>
 						{/*<ND.Radio disabled={true} value="link">图文</ND.Radio>*/}
 					</ND.Radio.Group>
 
 				</FormItem>
 
+				<FormItem
+					label="发布图片"
+					{...formItemLayout}
+					>
 
+					<UI.Comp_UploadFileInput {...p.upload} ref="file" />
+
+				</FormItem>
 
 				<FormItem
 					{...formItemLayout}
@@ -104,17 +112,16 @@ let ELEM = class extends KUI.React.Component{
 					</ND.Select>
 				</FormItem>
 
-
-
 			</Form>
 		);
 
 
 	}
 
+
 	handleUpload(e){
 		if(e.file.status === 'done'){
-			//console.log(e);
+			console.log(e);
 			//e.file.url = e.file.response.url;
 			//e.file.thumbUrl = e.file.url;
 			//e.fileList = [e.file];
@@ -138,11 +145,12 @@ UI.CM.Publish_Common_Content = class extends KUI.Page{
 		return {ready : true};
 	}
 	render(){
-		let Elem= ND.Form.create()(ELEM);
+		let Elem= ND.Form.create({})(ELEM);
 		return <div><Elem ref="form" /></div>
 	}
 
 	getValue(callback){
+		let self = this;
 
 		this.refs.form.validateFieldsAndScroll((errors, v) => {
 			if (!!errors) {
@@ -150,16 +158,19 @@ UI.CM.Publish_Common_Content = class extends KUI.Page{
 				callback(false);
 				return;
 			}
-console.log(v);
+
 			let d = {
 				assignGroup : v.assignGroup,
 				content : v.content,
 				type : v.type
 			};
+			if(d.type === 'image'){
+				d.content = v.upload;
+			}
 
 			d.publishType = 'common';
 
-			//console.log(d);
+			console.log(d);
 			callback(d);
 		});
 	}

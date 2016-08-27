@@ -484,6 +484,18 @@ var F = {
 				}
 			});
 		}
+		else if(item.type === 'image'){
+			if(item.content){
+				wx.sendImageMessage({
+					type : 3,
+					FromUserName : cu.UserName,
+					ToUserName : one.UserName,
+					imageUrl : item.content
+				}, function(err, rs){
+					console.log(err, rs);
+				})
+			}
+		}
 		else{
 			wx.sendMessage({
 				type : 1,
