@@ -1,4 +1,5 @@
 import {KG, FS, DataMan} from 'meteor/kg:base';
+import http from 'meteor/http';
 
 FS.DataMan = DataMan;
 
@@ -7,7 +8,7 @@ var createThumb = function(fileObj, readStream, writeStream) {
 	//console.log(arguments);
 };
 
-var getBase64Data = function(doc, callback) {
+var getBase64Data = function(doc, encoding, callback) {
 	var buffer = new Buffer(0);
 	// callback has the form function (err, res) {}
 	var readStream = doc.createReadStream('images');
@@ -21,7 +22,7 @@ var getBase64Data = function(doc, callback) {
 	readStream.on('end', function() {
 		//console.log(123);
 		// done
-		callback(null, buffer.toString('base64'));
+		callback(null, buffer.toString(encoding||'base64'));
 	});
 };
 var getBase64DataSync = Meteor.wrapAsync(getBase64Data);
@@ -32,6 +33,9 @@ let allow = {
 		return true;
 	},
 	update : function(){
+		return true;
+	},
+	remove : function(){
 		return true;
 	},
 	download : function(){
@@ -59,14 +63,19 @@ FS._init = function(){
 		]
 	});
 
+	FS.Upload = new FS.Collection('HW-Upload-File', {
+		stores: [
+			new FS.Store.GridFS("HW-Upload-File")
+		]
+	});
+
 	FS.Chat.allow(allow);
 	FS.MSG34.allow(allow);
 	FS.HeadImage.allow(allow);
+	FS.Upload.allow(allow);
 
 	if(Meteor.isServer){
-		//Meteor.publish("images", function(){
-		//	return FS.Chat.find();
-		//});
+
 	}
 
 
@@ -215,7 +224,67 @@ Image.initRoute = function(){
 
 	});
 
+	KG.Picker.route('/res/upload', function(p, req, res, next){
 
+		//var f = new FS.File();
+		//
+		//f.attachData(req, {type: 'image/jpeg'});
+		//console.log(f.name(), f.type(), f.size());
+		//let nn = Meteor.uuid()+'.jpeg';
+		//f.name(nn);
+		//f = FS.Upload.insert(f);
+		//res.end(JSON.stringify({url:'/res/upload/'+f.name()}));
+
+
+
+		var buffer = [];
+
+		res.on('data', Meteor.bindEnvironment(function(chunk){
+			console.log(chunk.length)
+			buffer.push(chunk);
+		}));
+
+		res.on('end', Meteor.bindEnvironment(function(){
+			//save to db
+			buffer = Buffer.concat(buffer);
+
+			console.log(buffer);
+			var f = new FS.File();
+
+			f.attachData(buffer, {type: 'image/jpeg'});
+			console.log(f.name(), f.type(), f.size());
+			let nn = Meteor.uuid()+'.jpeg';
+			f.name(nn);
+			f = FS.Upload.insert(f);
+			res.end(JSON.stringify({url:'/res/upload/'+f.name()}));
+
+		}));
+
+	});
+
+	KG.Picker.route('/res/upload/:name', function(p, req, res, next){
+		let name = p.name;
+
+		let one = FS.Upload.findOne({
+			'original.name' : name
+		});
+
+
+		if(one){
+			let file = one.getFileRecord();
+			let stream = file.createReadStream('HW-Upload-File');
+
+			res.writeHead(200, {
+				'Content-Type': file.type(),
+				'Content-Length': file.size()
+			});
+			console.log(file);
+			stream.pipe(res);
+			//res.write(x);
+			//res.end()
+
+		}
+	});
 
 
 };

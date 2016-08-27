@@ -19,7 +19,7 @@ let ELEM = class extends KUI.React.Component{
 				initialValue : '',
 				rules : [
 					{
-						required: true,
+						//required: true,
 						message: '请输入发布内容'
 					}
 				]
@@ -39,6 +39,10 @@ let ELEM = class extends KUI.React.Component{
 				rules: [
 					{ required: true, message: '请选择要发布的群', type: 'array' }
 				]
+			}),
+
+			upload : get('upload', {
+
 			})
 		};
 	}
@@ -79,11 +83,13 @@ let ELEM = class extends KUI.React.Component{
 
 					<ND.Radio.Group {... p.type}>
 						<ND.Radio value="text">文字</ND.Radio>
-						{/*<ND.Radio disabled={true} value="image">图片</ND.Radio>*/}
+						<ND.Radio value="image">图片</ND.Radio>
 						{/*<ND.Radio disabled={true} value="link">图文</ND.Radio>*/}
 					</ND.Radio.Group>
 
 				</FormItem>
+
+
 
 				<FormItem
 					{...formItemLayout}
@@ -98,9 +104,24 @@ let ELEM = class extends KUI.React.Component{
 					</ND.Select>
 				</FormItem>
 
+
+
 			</Form>
 		);
 
+
+	}
+
+	handleUpload(e){
+		if(e.file.status === 'done'){
+			//console.log(e);
+			//e.file.url = e.file.response.url;
+			//e.file.thumbUrl = e.file.url;
+			//e.fileList = [e.file];
+			//console.log(e.fileList)
+
+			//util.getReactJQueryObject(this.refs.img).attr('src', e.file.response.url);
+		}
 
 	}
 
@@ -129,7 +150,7 @@ UI.CM.Publish_Common_Content = class extends KUI.Page{
 				callback(false);
 				return;
 			}
-
+console.log(v);
 			let d = {
 				assignGroup : v.assignGroup,
 				content : v.content,
@@ -139,7 +160,7 @@ UI.CM.Publish_Common_Content = class extends KUI.Page{
 			d.publishType = 'common';
 
 			console.log(d);
-			callback(d);
+			//callback(d);
 		});
 	}
 
