@@ -83,7 +83,7 @@ let ELEM = class extends KUI.React.Component{
 
 					<ND.Radio.Group {... p.type}>
 						<ND.Radio value="text">文字</ND.Radio>
-						<ND.Radio value="image">图片</ND.Radio>
+						{/*<ND.Radio value="image">图片</ND.Radio>*/}
 						{/*<ND.Radio disabled={true} value="link">图文</ND.Radio>*/}
 					</ND.Radio.Group>
 
