@@ -444,7 +444,7 @@ var F = {
 					//console.log('[send Timer Content]', item.content, one.UserName, cu.UserName);
 					let tpC = moment(new Date()).format(KG.const.dateAllFormat);
 					if(wx.config.startTime){
-						tpC += '\n'+'运行了'+Math.ceil((Date.now()-wx.config.startTime)/1000*60)+'分钟';
+						tpC += '\n'+'运行了'+Math.ceil((Date.now()-wx.config.startTime)/(1000*60))+'分钟';
 					}
 
 					wx.sendMessage({
