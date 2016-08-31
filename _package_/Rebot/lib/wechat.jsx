@@ -61,6 +61,7 @@ if(Meteor.isServer){
 				wx.config.isCheck = false;
 				wx.config.isConnect = false;
 				wx.config.loginState = {};
+				wx.config.uuid = null;
 
 				groupList = {};
 				friendList = {};
