@@ -175,7 +175,7 @@ if(Meteor.isServer){
 					url : url,
 					headers : F.getRequestHeader()
 				}), function(err, res, body){
-					//console.log(body);
+					console.log(body);
 					F.setCookie(res.headers['set-cookie']);
 
 					parseXml(body, function (err, result) {
