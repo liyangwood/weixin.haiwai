@@ -442,7 +442,7 @@ if(Meteor.isServer){
 					data : formData,
 					json : true
 				}), function(err, res, body){
-
+console.log(body);
 					F.setSyncKey(body.SyncKey);
 					F.setCookie(res.headers['set-cookie']);
 
