@@ -1,11 +1,24 @@
 
 
-FlowRouter.route("/test", {
+FlowRouter.route("/", {
 	action(p){
 
 		App.routeHandler(p, {
-			pageTilte : 'test',
-			bodyTmpl : <p>1234</p>
+			pageTilte : '首页',
+			bodyTmpl : <UI.Home_Index />
+		});
+	}
+});
+
+//home
+let HomeRoute = FlowRouter.group({
+	prefix : '/home'
+});
+HomeRoute.route('/', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '首页',
+			bodyTmpl : <UI.Home_Index />
 		});
 	}
 });

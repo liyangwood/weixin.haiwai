@@ -41,7 +41,7 @@ runLocalHost(){
     echo "---- set env end ----"
 
     #meteor --settings settings-dev.json --port $PORT
-    sudo -E meteor --port $PORT
+    sudo -E meteor --port $PORT --settings settings.json
 }
 
 runGoogleEWC(){
