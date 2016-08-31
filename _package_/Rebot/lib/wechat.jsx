@@ -175,13 +175,14 @@ if(Meteor.isServer){
 					url : url,
 					headers : F.getRequestHeader()
 				}), function(err, res, body){
-					console.log(body);
+
 					F.setCookie(res.headers['set-cookie']);
 
 					parseXml(body, function (err, result) {
 						var json = result;
+						console.log(json)
 
-						if(rp(json.error.message) === 'OK'){
+						if(rp(json.error.skey)){
 							wx.config.skey = rp(json.error.skey);
 							wx.config.wxsid = rp(json.error.wxsid);
 							wx.config.wxuin = rp(json.error.wxuin);
