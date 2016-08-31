@@ -382,7 +382,7 @@ if(Meteor.isServer){
 				tm = Meteor.setTimeout(function(){
 					F.reset();
 					F.getWeixinConfigAfterLogin();
-				}, 1000*50*5);
+				}, 1000*60*5);
 
 				request({
 					url : url,
