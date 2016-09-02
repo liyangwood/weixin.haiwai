@@ -27,6 +27,12 @@ export const ZhiBoGroup = {
 		defaultValue : ''
 	}),
 
+	isRemoved : {
+		type : Boolean,
+		optional : true,
+		defaultValue : false
+	},
+
 	createTime : KG.schema.createTime(),
 	updateTime : KG.schema.updateTime()
 };

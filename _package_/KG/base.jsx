@@ -136,19 +136,7 @@ let Base = class{
 	}
 
 	_defineMeteorMethod(){
-		return {
-			removeById(id){
-				try{
-					this._db.remove({_id : id});
-
-					return true;
-				}
-				catch(e){
-					return e;
-				}
-
-			}
-		};
+		return {};
 	}
 
 	/*
@@ -355,6 +343,10 @@ let Base = class{
 					}
 				}
 			});
+
+			opts.query.isRemoved = {
+				$nin : [true]
+			};
 
 			let skip = opts.pageSize * (opts.pageNum-1);
 			let option = {

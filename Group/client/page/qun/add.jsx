@@ -124,6 +124,9 @@ UI.Qun_Edit = class extends KUI.Page{
 					           onClick={()=>{util.goPath(`/qun/message/list?qunID=${this.data.id}`)}}>消息记录</ND.Button>
 					{<ND.Button style={util.style.ML_20} type="primary"
 					           onClick={()=>{util.goPath(`/qun/message/selectandexport?qunID=${this.data.id}`)}}>导出</ND.Button>}
+
+					<ND.Button style={{float:'right'}} type="default"
+					           onClick={this.delete.bind(this)}>删除群</ND.Button>
 				</div>
 			</div>
 		);
@@ -148,6 +151,34 @@ UI.Qun_Edit = class extends KUI.Page{
 				util.alert.ok('Insert Success');
 				util.goPath('/qun/list');
 			}
+		});
+	}
+
+	delete(){
+		let id = this.data.id;
+		let self = this;
+
+		swal({
+			title: "确认删除这个群？",
+			text: "",
+			type: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#DD6B55",
+			confirmButtonText: "确认",
+			cancelButtonText: "取消",
+			closeOnConfirm: true,
+			closeOnCancel: true
+		}, function(isConfirm){
+			if(isConfirm){
+				KG.Qun.callMeteorMethod('deleteById', [id], {
+					success : function(flag){
+						util.goPath('/qun/list');
+					}
+				});
+
+
+			}
+
 		});
 	}
 };

@@ -36,6 +36,12 @@ export default Event = {
 		optional : true
 	},
 
+	isRemoved : {
+		type : Boolean,
+		optional : true,
+		defaultValue : false
+	},
+
 
 
 	createTime : KG.schema.createTime(),

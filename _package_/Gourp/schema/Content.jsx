@@ -59,5 +59,11 @@ export default Content = {
 	status : KG.schema.default({
 		optional : true,
 		defaultValue : 'active'
-	})
+	}),
+
+	isRemoved : {
+		type : Boolean,
+		optional : true,
+		defaultValue : false
+	}
 };
