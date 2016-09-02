@@ -77,7 +77,7 @@ let ELEM = class extends KUI.React.Component{
 					label="答案"
 					{... lay}>
 
-					<ND.Input {... p.reply} />
+					<ND.Input type="textarea" {... p.reply} />
 					<p className="hw-formtip">{`{GroupUser}可以替换为发信息的用户`}</p>
 				</ND.Form.Item>
 

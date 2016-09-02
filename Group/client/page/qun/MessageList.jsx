@@ -72,12 +72,10 @@ UI.Qun_MessageList = class extends KUI.Page{
 		];
 
 		let pageination = {
-			pageSize : 10,
+			pageSize : 50,
 			total : list.length
 		};
-		if(list.length < 11){
-			pageination = false;
-		}
+
 
 		return <ND.Table columns={titleArray} size="middle" dataSource={list} pagination={pageination} />
 	}

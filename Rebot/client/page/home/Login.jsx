@@ -210,7 +210,8 @@ UI.Home_Login = class extends KUI.RC.CSS{
 			else{
 				self.setState({
 					loading : false,
-					step : 1
+					step : 0,
+					qr : null
 				});
 			}
 

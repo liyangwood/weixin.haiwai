@@ -131,12 +131,13 @@ UI.CM.Filter = class extends KUI.RC.CSS{
 
 	_clear(){
 		this.refs.form.resetFields();
+
+		this._search();
 	}
 
 	componentDidUpdate(){
-
 		let d = this.props.data;
-		console.log(d);
+
 		this.refs.form.setFieldsValue({
 			qun : d.qun || '',
 			text1 : d.text1 || '',

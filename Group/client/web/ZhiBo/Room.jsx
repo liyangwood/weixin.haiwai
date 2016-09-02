@@ -193,8 +193,8 @@ UI.Web_ZhiBo_Room = class extends KUI.Page{
 				display : 'inline-block',
 				height : '32px',
 				'verticalAlign' : 'top',
-				fontSize : '15px',
-				color : '#787878',
+				fontSize : '12px',
+				color : '#cbcbcb',
 				marginLeft : '12px'
 			},
 			a3 : {
@@ -204,7 +204,8 @@ UI.Web_ZhiBo_Room = class extends KUI.Page{
 				padding : '8px 12px',
 				marginTop : '2px',
 				background : '#eeeeee',
-				borderRadius : '5px'
+				borderRadius : '5px',
+				fontSize : '15px'
 			}
 		};
 
