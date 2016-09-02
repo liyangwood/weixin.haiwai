@@ -12,7 +12,10 @@ UI.Qun_MessageList = class extends KUI.Page{
 			_id : qunID
 		}});
 		let x1 = util.data.subscribe(KG.config.GroupMessage, {query : {
-			qunID : qunID
+			qunID : qunID,
+			CreateTime : {
+				'$gte' : moment(new Date()).subtract(7, 'days').unix()
+			}
 		}});
 
 		//let xx = Meteor.subscribe('images');
