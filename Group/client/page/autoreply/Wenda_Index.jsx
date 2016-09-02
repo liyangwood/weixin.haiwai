@@ -20,7 +20,7 @@ let C_Table = class extends UI.StatePage{
 		let list = this.state.list;
 		let titleArray = [
 			{
-				title : '类型',
+				title : '分类',
 				dataIndex : 'type'
 			},
 			{

@@ -98,6 +98,7 @@ KUI.reactMixin(ELEM.prototype, KUI.ReactMeteorData);
 
 UI.CM.Filter = class extends KUI.RC.CSS{
 
+
 	render(){
 		let Elem= ND.Form.create()(ELEM);
 
@@ -130,5 +131,16 @@ UI.CM.Filter = class extends KUI.RC.CSS{
 
 	_clear(){
 		this.refs.form.resetFields();
+	}
+
+	componentDidUpdate(){
+
+		let d = this.props.data;
+		console.log(d);
+		this.refs.form.setFieldsValue({
+			qun : d.qun || '',
+			text1 : d.text1 || '',
+			text2 : d.text2 || ''
+		});
 	}
 };

@@ -11,6 +11,7 @@ UI.Qun_List = class extends KUI.Page{
 	constructor(p){
 		super(p);
 		this.state = {
+			filter : {},
 			query : {}
 		};
 	}
@@ -40,7 +41,7 @@ UI.Qun_List = class extends KUI.Page{
 			<div className="m-box">
 				<h3>微信群列表</h3>
 				<div className="line"></div>
-				<UI.CM.Filter ref="filter" config={FilterConfig} callback={this.search.bind(this)} />
+				<UI.CM.Filter ref="filter" data={this.state.filter} config={FilterConfig} callback={this.search.bind(this)} />
 				<hr/>
 				{this.renderTable(list)}
 
@@ -62,7 +63,10 @@ UI.Qun_List = class extends KUI.Page{
 			query.rebot = new RegExp(data.text1, 'g');
 		}
 
-		this.setState({query, query});
+		this.setState({
+			query : query,
+			filter : data
+		});
 	}
 
 	renderTable(list){
