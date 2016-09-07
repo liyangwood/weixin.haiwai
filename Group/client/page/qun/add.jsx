@@ -124,6 +124,7 @@ UI.Qun_Edit = class extends KUI.Page{
 					           onClick={()=>{util.goPath(`/qun/message/list?qunID=${this.data.id}`)}}>消息记录</ND.Button>
 					{<ND.Button style={util.style.ML_20} type="primary"
 					           onClick={()=>{util.goPath(`/qun/message/selectandexport?qunID=${this.data.id}`)}}>导出</ND.Button>}
+					<ND.Button type="primary" style={util.style.ML_20} onClick={()=>{util.goPath(`/qun/score/${this.data.id}`)}}>群积分</ND.Button>
 
 					<ND.Button style={{float:'right'}} type="default"
 					           onClick={this.delete.bind(this)}>删除群</ND.Button>

@@ -28,6 +28,13 @@ export const Qun = {
 		defaultValue : false
 	},
 
+	score : {
+		type : Object,
+		blackbox : true,
+		optional : true,
+		defaultValue : {}
+	},
+
 	createTime : KG.schema.createTime(),
 	updateTime : KG.schema.updateTime()
 };

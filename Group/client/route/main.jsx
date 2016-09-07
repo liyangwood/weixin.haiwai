@@ -100,6 +100,14 @@ QunRoute.route('/article/edit/:id', {
 		});
 	}
 });
+QunRoute.route('/score/:id', {
+	action(p){
+		App.routeHandler(p, {
+			pageTitle : '群消息',
+			bodyTmpl : <UI.Qun_QunScore />
+		});
+	}
+});
 
 // zhibo
 let ZhiBoRoute = FlowRouter.group({

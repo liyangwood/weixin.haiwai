@@ -90,6 +90,18 @@ var F = {
 			msg.qunName = qun.name;
 
 			KG.GroupMessage.getDB().insert(msg);
+
+			//update qun score
+			let s = F.getScoreByQun(qun._id);
+			let scoreObj = {};
+			_.each(s, (l)=>{
+				scoreObj[l._id] = l.count;
+			});
+			KG.Qun.getDB().update({_id : qun._id}, {
+				$set : {
+					score : scoreObj
+				}
+			})
 		}
 
 		return msg;
@@ -262,6 +274,29 @@ var F = {
 
 		return h;
 
+	},
+
+	getScoreByQun : function(qunID){
+		let pipe = [
+			{
+				'$match' : {
+					qunID : qunID
+				}
+			},
+			{
+				'$group' : {
+					_id : '$UserObject.NickName',
+					count: { $sum: 1 }
+				}
+			},
+			{
+				'$sort' : {
+					count : -1
+				}
+			}
+		];
+		let rs = KG.GroupMessage.getDB().aggregate(pipe);
+		return rs;
 	},
 
 	replaceFilter : function(str, filter){
